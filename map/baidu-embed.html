@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solan Map</title>
+  <style>
+    html, body, #map {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #e8eef3;
+    }
+
+    /* 隐藏缩放、平移、全景、城市列表等，保留底部百度版权 Logo */
+    .BMap_stdMpCtrl,
+    .BMap_stdMpPan,
+    .BMap_stdMpZoom,
+    .BMap_stdMpType,
+    .BMap_omCtrl,
+    .BMap_scaleCtrl,
+    .BMap_CityListCtrl,
+    .anchorTR,
+    .anchorTL,
+    .BMap_noprint.anchorTR,
+    .BMap_noprint.anchorTL,
+    .BMap_noprint.anchorBR,
+    .pano_close {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div id="map" role="img" aria-label="塔谈国际贸易城4号写字楼"></div>
+
+  <script>
+    /**
+     * 请填写百度地图开放平台「浏览器端」AK：
+     * https://lbsyun.baidu.com/apiconsole/key
+     * 并在控制台为该 AK 配置当前网站域名白名单
+     */
+    var BAIDU_MAP_AK = 'YOUR_BAIDU_MAP_AK'
+
+    /** 地点名称（点击标注显示） */
+    var PLACE_TITLE = '塔谈国际贸易城4号写字楼'
+    /** 信息窗补充说明 */
+    var PLACE_CONTENT = 'E4-0790, Tatan International Trade City, Shijiazhuang'
+    /** 检索城市 */
+    var PLACE_CITY = '石家庄'
+    /** 检索关键词 */
+    var PLACE_QUERY = '塔谈国际贸易城4号写字楼'
+  </script>
+
+  <script>
+    /**
+     * 动态加载百度地图 JS API
+     */
+    function loadBaiduMapScript() {
+      if (!BAIDU_MAP_AK || BAIDU_MAP_AK === 'YOUR_BAIDU_MAP_AK') {
+        showFallback('请配置百度地图 AK 后显示地图')
+        return
+      }
+      var script = document.createElement('script')
+      script.src = 'https://api.map.baidu.com/api?v=3.0&ak=' + encodeURIComponent(BAIDU_MAP_AK) + '&callback=initSolanMap'
+      script.onerror = function () {
+        showFallback('百度地图加载失败')
+      }
+      document.body.appendChild(script)
+    }
+
+    /**
+     * 无 AK / 加载失败时的简洁占位
+     * @param {string} tip 提示文案
+     */
+    function showFallback(tip) {
+      var el = document.getElementById('map')
+      el.style.cssText = 'display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:#4f5f6d;font:14px/1.5 sans-serif;padding:16px;text-align:center;'
+      el.innerHTML = '<strong style="color:#0b2b3d">' + PLACE_TITLE + '</strong><span>' + tip + '</span>'
+    }
+
+    /**
+     * 在指定点添加可点击标注，并显示地点名称
+     * @param {BMap.Map} map 地图实例
+     * @param {BMap.Point} point 坐标点
+     */
+    function placeMarker(map, point) {
+      map.centerAndZoom(point, 17)
+      var marker = new BMap.Marker(point)
+      map.addOverlay(marker)
+
+      var infoHtml = '<div style="padding:2px 4px 4px;font-size:13px;line-height:1.45;">'
+        + '<div style="font-weight:600;color:#0b2b3d;margin-bottom:2px;">' + PLACE_TITLE + '</div>'
+        + '<div style="color:#4f5f6d;">' + PLACE_CONTENT + '</div>'
+        + '</div>'
+      var infoWindow = new BMap.InfoWindow(infoHtml, {
+        width: 260,
+        height: 72,
+        title: ''
+      })
+
+      /**
+       * 打开地点名称信息窗
+       */
+      function openInfo() {
+        map.openInfoWindow(infoWindow, point)
+      }
+
+      marker.addEventListener('click', openInfo)
+      openInfo()
+    }
+
+    /**
+     * 初始化精简地图：不添加搜索框、工具栏、全景等控件
+     */
+    function initSolanMap() {
+      var map = new BMap.Map('map', {
+        enableMapClick: false
+      })
+
+      // 允许滚轮缩放与拖拽，但不显示缩放/平移/全景按钮
+      map.enableScrollWheelZoom(true)
+
+      var local = new BMap.LocalSearch(map, {
+        onSearchComplete: function (results) {
+          if (local.getStatus() === BMAP_STATUS_SUCCESS && results && results.getPoi(0)) {
+            placeMarker(map, results.getPoi(0).point)
+            return
+          }
+
+          var geo = new BMap.Geocoder()
+          geo.getPoint(PLACE_CITY + PLACE_QUERY, function (point) {
+            if (point) {
+              placeMarker(map, point)
+            } else {
+              showFallback(PLACE_TITLE)
+            }
+          }, PLACE_CITY)
+        }
+      })
+      local.setLocation(PLACE_CITY)
+      local.search(PLACE_QUERY)
+    }
+
+    window.initSolanMap = initSolanMap
+    loadBaiduMapScript()
+  </script>
+</body>
+</html>

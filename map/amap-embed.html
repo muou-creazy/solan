@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solan AMap</title>
+  <style>
+    html, body, #map {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #e8eef3;
+    }
+
+    /* 隐藏工具条、比例尺、定位、鹰眼等；强制保留高德 Logo 与版权 */
+    .amap-toolbar,
+    .amap-scalecontrol,
+    .amap-scale-text,
+    .amap-geolocation,
+    .amap-overview,
+    .amap-maptypecontrol,
+    .amap-controlbar,
+    .amap-ui-control,
+    .amap-indoor-map,
+    .amap-lib-marker-from,
+    .amap-touch-toolbar {
+      display: none !important;
+    }
+
+    .amap-logo,
+    .amap-copyright {
+      display: block !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+  </style>
+</head>
+<body>
+  <div id="map" role="img" aria-label="塔谈国际贸易城4号写字楼"></div>
+
+  <script>
+    /**
+     * 请填写高德开放平台「Web端(JS API)」Key：
+     * https://console.amap.com/dev/key/app
+     * 并开启「Web端(JS API)」服务，配置域名白名单
+     */
+    // var AMAP_KEY = 'YOUR_AMAP_KEY'
+    var AMAP_KEY = 'baf0b96c6bbd2aadb97272d1f9923684'
+
+    /** 安全密钥（若控制台启用了安全密钥校验，请填写；未启用可留空） */
+    var AMAP_SECURITY_CODE = ''
+
+    /** 地点名称（点击标注显示） */
+    var PLACE_TITLE = '塔谈国际贸易城4号写字楼'
+    /** 信息窗补充说明 */
+    var PLACE_CONTENT = 'E4-0790, Tatan International Trade City, Shijiazhuang'
+    /** 默认标注坐标 [经度, 纬度] */
+    var PLACE_LNGLAT = [114.486989, 38.001671]
+  </script>
+
+  <script>
+    /**
+     * 无 Key / 加载失败时的简洁占位
+     * @param {string} tip 提示文案
+     */
+    function showFallback(tip) {
+      var el = document.getElementById('map')
+      el.style.cssText = 'display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:#4f5f6d;font:14px/1.5 sans-serif;padding:16px;text-align:center;'
+      el.innerHTML = '<strong style="color:#0b2b3d">' + PLACE_TITLE + '</strong><span>' + tip + '</span>'
+    }
+
+    /**
+     * 在地图上添加可点击标注，并显示地点名称
+     * @param {AMap.Map} map 地图实例
+     * @param {number[]} lnglat [经度, 纬度]
+     */
+    function placeMarker(map, lnglat) {
+      map.setZoomAndCenter(10, lnglat)
+
+      var marker = new AMap.Marker({
+        position: lnglat,
+        title: PLACE_TITLE,
+        map: map
+      })
+
+      var infoHtml = '<div style="padding:4px 6px;font-size:13px;line-height:1.45;">'
+        + '<div style="font-weight:600;color:#0b2b3d;margin-bottom:2px;">' + PLACE_TITLE + '</div>'
+        + '<div style="color:#4f5f6d;">' + PLACE_CONTENT + '</div>'
+        + '</div>'
+
+      var infoWindow = new AMap.InfoWindow({
+        content: infoHtml,
+        offset: new AMap.Pixel(0, -28)
+      })
+
+      /**
+       * 打开地点名称信息窗
+       */
+      function openInfo() {
+        infoWindow.open(map, lnglat)
+      }
+
+      marker.on('click', openInfo)
+      openInfo()
+    }
+
+    /**
+     * 初始化精简高德地图：固定坐标落点，不添加搜索框、工具栏等控件
+     */
+    function initSolanAmap() {
+      var map = new AMap.Map('map', {
+        viewMode: '2D',
+        zoom: 10,
+        center: PLACE_LNGLAT,
+        resizeEnable: true,
+        isHotspot: false
+      })
+
+      placeMarker(map, PLACE_LNGLAT)
+    }
+
+    /**
+     * 动态加载高德 JS API 2.0
+     */
+    function loadAmapScript() {
+      if (!AMAP_KEY) {
+        showFallback('请配置高德地图 Key 后显示地图')
+        return
+      }
+
+      if (AMAP_SECURITY_CODE) {
+        window._AMapSecurityConfig = {
+          securityJsCode: AMAP_SECURITY_CODE
+        }
+      }
+
+      var script = document.createElement('script')
+      script.src = 'https://webapi.amap.com/maps?v=2.0&key=' + encodeURIComponent(AMAP_KEY) + '&callback=initSolanAmap'
+      script.onerror = function () {
+        showFallback('高德地图加载失败')
+      }
+      document.body.appendChild(script)
+    }
+
+    window.initSolanAmap = initSolanAmap
+    loadAmapScript()
+  </script>
+</body>
+</html>

@@ -248,21 +248,25 @@
         </li>
       </ul>
 
-      <!-- 地址下方定位地图（OpenStreetMap，无需额外库） -->
-      <div class="contact-simple__map">
-        <iframe
-          title="Solan HQ map - Tatan International Trade City, Shijiazhuang"
+      <!-- 地址下方定位地图：精简高德地图（仅位置标注 + 名称，保留 Logo）；百度版保留在 map/baidu-embed.html -->
+      <!-- 地址下方：位置示意图，点击跳转高德地图 -->
+      <a
+        class="contact-simple__map"
+        href="https://uri.amap.com/marker?position=114.486989,38.001671&amp;name=%E5%A1%94%E5%9D%9B%E5%9B%BD%E9%99%85%E5%95%86%E8%B4%B8%E5%9F%8E4%E5%8F%B7%E5%86%99%E5%AD%97%E6%A5%BC&amp;src=solan&amp;callnative=1"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="在高德地图中查看塔谈国际贸易城4号写字楼"
+      >
+        <img
+          class="contact-simple__map-img"
+          src="./img/amapposition.png"
+          alt="HQ location map - Tatan International Trade City Building 4, Shijiazhuang"
+          width="1589"
+          height="820"
           loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          src="https://www.openstreetmap.org/export/embed.html?bbox=114.458%2C38.025%2C114.498%2C38.055&amp;layer=mapnik&amp;marker=38.040%2C114.478"
-        ></iframe>
-        <a
-          class="contact-simple__map-link"
-          href="https://www.openstreetmap.org/?mlat=38.040&amp;mlon=114.478#map=15/38.040/114.478"
-          target="_blank"
-          rel="noopener noreferrer"
-        >Open larger map</a>
-      </div>
+        >
+        <span class="contact-simple__map-tip">在高德地图中查看 →</span>
+      </a>
     </div>
 
     <!-- 旧 Contact 页面暂时隐藏，便于后期恢复使用 -->
