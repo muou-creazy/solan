@@ -3,7 +3,7 @@
  */
 (function () {
   /** 允许切换的模块 id 列表 */
-  var PAGE_IDS = ['home', 'about', 'products', 'services', 'faq', 'contact']
+  var PAGE_IDS = ['home', 'about', 'products', 'services', 'faq', 'contact', 'terms', 'privacy']
   /** 默认首页模块 */
   var DEFAULT_PAGE = 'home'
 
