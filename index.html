@@ -15,54 +15,559 @@
   <link href="./style/index.css" rel="stylesheet">
 </head>
 <body>
-  <!-- 模块由 js/load-commonts.js 从 commonts/ 注入 -->
-  <div id="site-header"></div>
+<!-- 顶部站点头：Logo 行 + 导航 + 语言切换 -->
+<header class="site-header" id="navbar">
+  <!-- 顶部 Logo 行：左 Logo，右社交渠道 -->
+  <div class="logo-bar">
+    <div class="container">
+      <a href="#home" class="logo-wrapper">
+        <img class="logo-image" src="./img/logo.png" alt="Solan Logo" width="36" height="36">
+        <!-- <span class="logo-text">Solan</span> -->
+      </a>
+      <div class="social-channels social-channels--header" aria-label="Follow us">
+        <img class="social-channels__img" src="./img/contact-channels.png" alt="Follow us on WhatsApp, Facebook and LinkedIn" width="376" height="125" loading="eager">
+        <div class="social-channels__hotspots">
+          <a class="js-social-chat social-channels__spot social-channels__spot--wa" href="https://web.whatsapp.com/send?phone=8615027442014&text=Hello%20Solan%2C%20I%20would%20like%20to%20inquire%20about%20your%20products." data-channel="whatsapp" data-account="8615027442014" data-text="Hello Solan, I would like to inquire about your products." rel="noopener noreferrer" aria-label="WhatsApp"></a>
+          <a class="js-social-chat social-channels__spot social-channels__spot--fb" href="https://m.me/8615027442014?text=Hello%20Solan%2C%20I%20would%20like%20to%20inquire%20about%20your%20products." data-channel="facebook" data-account="8615027442014" data-text="Hello Solan, I would like to inquire about your products." rel="noopener noreferrer" aria-label="Facebook Messenger"></a>
+          <a class="js-social-chat social-channels__spot social-channels__spot--li" href="https://www.linkedin.com/messaging/compose/?recipient=8615027442014&body=Hello%20Solan%2C%20I%20would%20like%20to%20inquire%20about%20your%20products." data-channel="linkedin" data-account="8615027442014" data-text="Hello Solan, I would like to inquire about your products." rel="noopener noreferrer" aria-label="LinkedIn Message"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 导航行：菜单居中，右侧语言切换 -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-links">
+        <a href="#home" data-i18n="nav.home">Home</a>
+        <a href="#about" data-i18n="nav.about">About</a>
+        <a href="#products" data-i18n="nav.products">Products</a>
+        <a href="#services" data-i18n="nav.services">Services</a>
+        <!-- FAQ 导航暂时隐藏，页面内容保留便于后期启用 -->
+        <a href="#faq" class="nav-link--dormant" hidden data-i18n="nav.faq">FAQ</a>
+        <a href="#contact" data-i18n="nav.contact">Contact</a>
+      </div>
+      <div class="lang-switcher" id="lang-switcher">
+        <button type="button" class="lang-switcher__btn" id="lang-switcher-btn" aria-haspopup="listbox" aria-expanded="false" data-i18n-aria="lang.aria">
+          <span class="lang-switcher__current" id="lang-switcher-current">EN</span>
+          <span class="lang-switcher__chevron" aria-hidden="true"></span>
+        </button>
+        <ul class="lang-switcher__menu" id="lang-switcher-menu" role="listbox" hidden>
+          <li role="option" tabindex="0" data-lang="en" aria-selected="true">English</li>
+          <li role="option" tabindex="0" data-lang="zh" aria-selected="false">中文</li>
+          <li role="option" tabindex="0" data-lang="ko" aria-selected="false">한국어</li>
+          <li role="option" tabindex="0" data-lang="ja" aria-selected="false">日本語</li>
+          <li role="option" tabindex="0" data-lang="fr" aria-selected="false">Français</li>
+          <li role="option" tabindex="0" data-lang="de" aria-selected="false">Deutsch</li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
 
-  <main>
-    <div id="page-home"></div>
-    <div class="container" id="page-sections"></div>
-  </main>
+<main>
+<!-- HOME：全站首屏 Banner -->
+<section id="home" class="section-block home-page">
+  <div class="home-hero">
+    <div class="home-hero__media" aria-hidden="true"></div>
+    <div class="home-hero__content">
+      <p class="home-hero__brand">Solan</p>
+      <!-- <h1 class="home-hero__title">Trusted One-Stop Supplier For Sports &amp; Outdoor Products</h1> -->
+      <h1 class="home-hero__title" data-i18n="home.title" data-i18n-html>Trusted One-Stop Supplier <br/>Sports & Outdoor Products</h1>
+      <p class="home-hero__subtitle" data-i18n="home.subtitle">Sports protective gear | Riding &amp; Outdoor | Functional apparel | Fitness accessories</p>
+      <p class="home-hero__tags" data-i18n="home.tags">OEM &amp; ODM Customization｜Amazon FBA Supply｜DDP Door‑to‑Door Service</p>
+      <div class="home-hero__actions">
+        <a href="#products" class="btn-primary js-page-link" data-i18n="home.ctaProducts">View Products →</a>
+        <a href="#contact" class="btn-secondary js-page-link" data-i18n="home.ctaQuote">Get A Quotation</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <div id="site-footer"></div>
-  <div id="site-float"></div>
+  <div class="container">
 
-  <script src="./js/load-commonts.js"></script>
-  <script src="./js/translations.js"></script>
-  <script src="./js/i18n.js"></script>
-  <script src="./js/inquiry.js"></script>
-  <script src="./js/pages.js"></script>
-  <script src="./js/whatsapp.js"></script>
-  <script>
-    (function () {
-      /** 组件加载完成后的业务初始化 */
-      function onCommontsReady() {
-        if (window.SolanI18n && typeof window.SolanI18n.init === 'function') {
-          window.SolanI18n.init()
-        }
-        if (window.SolanPages && typeof window.SolanPages.init === 'function') {
-          window.SolanPages.init()
-        }
-        if (window.SolanWhatsApp && typeof window.SolanWhatsApp.init === 'function') {
-          window.SolanWhatsApp.init()
-        }
-        if (window.SolanInquiry) {
-          window.SolanInquiry.bindInquiryForm('inquiry-form')
-        }
+<!-- ABOUT -->
+<section id="about" class="section-block">
+  <span class="badge" data-i18n="about.badge">12+ years foreign trade</span>
+  <h2 class="section-title" data-i18n="about.title">About Us | Hebei Solan Technology Co., Ltd</h2>
 
-        var navbar = document.getElementById('navbar')
-        if (navbar) {
-          window.addEventListener('scroll', function () {
-            if (window.scrollY > 20) {
-              navbar.classList.add('scrolled')
-            } else {
-              navbar.classList.remove('scrolled')
-            }
-          })
-        }
+  <!-- 工厂图：顶部横向铺满，仅保留图片 -->
+  <figure class="about-hero-media">
+    <img src="./img/about-factory.png" alt="Solan factory production workshop" width="1000" height="524" loading="lazy" data-i18n-alt="about.altFactory">
+  </figure>
+
+  <!-- 图片下方文案 -->
+  <div class="about-copy">
+    <h3 class="about-copy__title" data-i18n="about.whoTitle">Who We Are</h3>
+    <p data-i18n="about.whoBody">Hebei Solan Technology Co., Ltd. is a professional sports goods supply chain supplier. With 12 years of mature import and export experience, we adopt a self-operated factory + certified cooperative factory dual supply model, focusing on sports protective gear, fitness accessories, outdoor cycling items and functional active apparel.</p>
+
+    <h3 class="about-copy__title about-copy__title--spaced" data-i18n="about.whyTitle">Why choose us</h3>
+    <p data-i18n="about.whyBody1">Solan provide one stop sourcing to help solve the pain points of scattered suppliers, inconsistent quality and high communication costs for overseas buyers.</p>
+    <p class="mt-1" data-i18n="about.whyBody2">Meanwhile deeply experienced in Amazon supply, OEM/ODM customization and DDP door-to-door delivery, providing full-link professional foreign trade solutions for global customers.</p>
+  </div>
+
+  <div class="about-gallery">
+    <!-- 证书图：近方形 2016×2048，高度占满、宽度按比例自适应 -->
+    <figure class="media-frame about-gallery__item about-gallery__item--certificates">
+      <div class="about-gallery__media">
+        <img src="./img/about-certificates.png" alt="Company certificates and qualifications" width="2016" height="2048" loading="lazy" data-i18n-alt="about.altCertificates">
+      </div>
+      <figcaption data-i18n="about.certificates">Certificates &amp; Qualifications</figcaption>
+    </figure>
+    <!-- 评价图：横图 1424×800，宽度占满、高度按比例自适应 -->
+    <figure class="media-frame about-gallery__item about-gallery__item--reviews">
+      <div class="about-gallery__media">
+        <img src="./img/about-reviews.png" alt="Customer reviews and feedback" width="1424" height="800" loading="lazy" data-i18n-alt="about.altReviews">
+      </div>
+      <figcaption data-i18n="about.reviews">Verified Customer Reviews</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products" class="section-block">
+  <span class="badge" data-i18n="products.badge">Product Center</span>
+  <h2 class="section-title" data-i18n="products.title">Our Products | Solan Sports &amp; Outdoor Wholesale</h2>
+  <div class="grid-3 product-grid">
+    <article class="card product-card">
+      <div class="card-media"><img src="./img/product-protective-gear.png" alt="Sports protective gear" loading="lazy" data-i18n-alt="products.altProtective"></div>
+      <h4 data-i18n="products.protective">Sports Protective Gear</h4>
+    </article>
+    <article class="card product-card">
+      <div class="card-media"><img src="./img/product-fitness-accessories.png" alt="Fitness and sports accessories" loading="lazy" data-i18n-alt="products.altFitness"></div>
+      <h4 data-i18n="products.fitness">Fitness &amp; Sports Accessories</h4>
+    </article>
+    <article class="card product-card">
+      <div class="card-media"><img src="./img/product-outdoor-cycling.png" alt="Outdoor and cycling series" loading="lazy" data-i18n-alt="products.altOutdoor"></div>
+      <h4 data-i18n="products.outdoor">Outdoor &amp; Cycling Series</h4>
+    </article>
+    <article class="card product-card">
+      <div class="card-media"><img src="./img/product-active-apparel.png" alt="Functional apparel and reflective safety wear" loading="lazy" data-i18n-alt="products.altApparel"></div>
+      <h4 data-i18n="products.apparel">Functional Apparel &amp; Reflective Safety Wear</h4>
+    </article>
+    <article class="card product-card">
+      <div class="card-media"><img src="./img/product-mixed-procurement.png" alt="One-stop mixed procurement" loading="lazy" data-i18n-alt="products.altMixed"></div>
+      <h4 data-i18n="products.mixed">One-Stop Mixed Procurement</h4>
+    </article>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="section-block">
+  <span class="badge" data-i18n="services.badge">Services</span>
+  <h2 class="section-title" data-i18n="services.title">Our Services | One-Stop Sports Supply Chain Solution</h2>
+
+  <div class="service-feature-grid">
+    <article class="service-feature">
+      <div class="service-feature__media"><img src="./img/service-qc.png" alt="Quality inspection and QC" loading="lazy" data-i18n-alt="services.altQc"></div>
+      <div class="service-feature__body">
+        <h4 data-i18n="services.qcTitle">Strict Factory Selection &amp; Unified QC</h4>
+        <p data-i18n="services.qcBody">Qualified cooperative factories with export qualifications. Unified standards, fabric inspection, semi-finished supervision, finished sampling. Meet EU, US, Amazon standards.</p>
+      </div>
+    </article>
+    <article class="service-feature">
+      <div class="service-feature__media"><img src="./img/service-oem.png" alt="OEM and ODM customization" loading="lazy" data-i18n-alt="services.altOem"></div>
+      <div class="service-feature__body">
+        <h4 data-i18n="services.oemTitle">OEM / ODM Customization</h4>
+        <p data-i18n="services.oemBody">Custom fabric, size, color, LOGO, silicone anti-slip, sublimation pattern, private label. Free proofing, fast sample, flexible MOQ.</p>
+      </div>
+    </article>
+    <article class="service-feature">
+      <div class="service-feature__media"><img src="./img/service-amazon-fba.png" alt="Amazon FBA specialized supply" loading="lazy" data-i18n-alt="services.altAmazon"></div>
+      <div class="service-feature__body">
+        <h4 data-i18n="services.amazonTitle">Amazon FBA Specialized Supply</h4>
+        <p data-i18n="services.amazonBody">Years of experience serving Amazon sellers. Standard FBA packaging, label pasting, batch stocking to reduce platform risks.</p>
+      </div>
+    </article>
+  </div>
+
+  <div class="services-grid services-grid--extra">
+    <div class="service-card"><h4 data-i18n="services.ddpTitle">DDP Door-to-Door Delivery</h4><p data-i18n="services.ddpBody">Support DDP tax-included delivery for most European and American countries. Handle picking, customs, tariff, destination delivery.</p></div>
+    <div class="service-card"><h4 data-i18n="services.mixTitle">One-Stop Mixed Consolidation</h4><p data-i18n="services.mixBody">Mix protective gear, fitness, cycling, apparel, reflective wear in one container. One-time docking, one-time shipment, great cost saving.</p></div>
+    <div class="service-card"><h4 data-i18n="services.afterTitle">Professional Foreign Trade After-Sales</h4><p data-i18n="services.afterBody">12 years export team, 24-hour inquiry reply, order tracking, documentation, after-sales support.</p></div>
+  </div>
+</section>
+
+<!-- FAQ（导航已隐藏，内容保留便于后期启用） -->
+<section id="faq" class="section-block">
+  <span class="badge" data-i18n="faq.badge">FAQ</span>
+  <h2 class="section-title" data-i18n="faq.title">FAQ | Wholesale &amp; Custom Inquiry Answers</h2>
+  <p class="section-sub" data-i18n="faq.sub">Here are the most frequently asked questions from our global wholesale and cross-border customers. Please feel free to contact us if you have other questions.</p>
+
+  <div class="faq-grid">
+    <div class="faq-list">
+      <div class="faq-item"><div class="faq-q" data-i18n="faq.q1">Q1: Are you a factory or a trading company?</div><div class="faq-a" data-i18n="faq.a1">A: Dual supply mode: self-owned factory for core products + cooperative factories for supporting categories. Uniform quality control for stable multi-category procurement.</div></div>
+      <div class="faq-item"><div class="faq-q" data-i18n="faq.q2">Q2: Can you support Amazon FBA supply and standard packaging?</div><div class="faq-a" data-i18n="faq.a2">A: Yes. Proficient in platform safety standards, FBA labeling, neutral packaging and batch stable delivery.</div></div>
+      <div class="faq-item"><div class="faq-q" data-i18n="faq.q3">Q3: Do you provide DDP door-to-door delivery service?</div><div class="faq-a" data-i18n="faq.a3">A: Yes, support DDP tax-included delivery for mainstream European and American countries.</div></div>
+      <div class="faq-item"><div class="faq-q" data-i18n="faq.q4">Q4: Can I mix different sports products in one container?</div><div class="faq-a" data-i18n="faq.a4">A: Absolutely. Mixed consolidation is our core advantage, saving procurement and logistics costs.</div></div>
+      <div class="faq-item"><div class="faq-q" data-i18n="faq.q5">Q5: Do you support OEM private label customization?</div><div class="faq-a" data-i18n="faq.a5">A: Yes. All core products support custom LOGO, pattern, fabric, size. Free design drafts and fast sample service.</div></div>
+      <div class="faq-item"><div class="faq-q" data-i18n="faq.q6">Q6: What is your MOQ?</div><div class="faq-a" data-i18n="faq.a6">A: Flexible MOQ for conventional sports protective gear and clothing. Small batch trial orders supported.</div></div>
+      <div class="faq-item"><div class="faq-q" data-i18n="faq.q7">Q7: How do you guarantee product quality?</div><div class="faq-a" data-i18n="faq.a7">A: Unified factory access standards, whole-process supervision, random sampling before shipment. Support third-party inspection.</div></div>
+      <div class="faq-item"><div class="faq-q" data-i18n="faq.q8">Q8: What are your payment and delivery terms?</div><div class="faq-a" data-i18n="faq.a8">A: T/T, Alibaba Trade Assurance, FOB port shipment, DDP door-to-door, stable delivery cycle.</div></div>
+    </div>
+    <aside class="faq-side">
+      <figure class="media-frame media-frame--faq">
+        <img src="./img/faq-support.png" alt="Sales team and customer support" loading="lazy" data-i18n-alt="faq.altSupport">
+        <figcaption data-i18n="faq.sideCaption">Professional sales &amp; after-sales support</figcaption>
+      </figure>
+    </aside>
+  </div>
+</section>
+
+<!-- CONTACT（新版 + 旧版隐藏区） -->
+<section id="contact" class="section-block">
+  <div class="contact-simple">
+    <h2 class="contact-simple__heading" data-i18n="contact.heading">Contact Us</h2>
+    <ul class="contact-simple__list">
+      <li>
+        <a class="contact-simple__item js-social-chat" href="https://web.whatsapp.com/send?phone=8615027442014" data-channel="whatsapp" data-account="8615027442014" data-text="Hello Solan, I would like to inquire about your products." rel="noopener noreferrer">
+          <span class="contact-simple__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8 9.6a16 16 0 0 0 6.4 6.4l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6A2 2 0 0 1 22 16.9z"/>
+            </svg>
+          </span>
+          <span>+86-15027442014</span>
+        </a>
+      </li>
+      <li>
+        <a class="contact-simple__item" href="mailto:shelly910423@gmail.com">
+          <span class="contact-simple__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="5" width="18" height="14" rx="2"/>
+              <path d="m3 7 9 6 9-6"/>
+            </svg>
+          </span>
+          <span>shelly910423@gmail.com</span>
+        </a>
+      </li>
+      <li>
+        <div class="contact-simple__item contact-simple__item--static">
+          <span class="contact-simple__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 7v5l3 2"/>
+            </svg>
+          </span>
+          <span data-i18n="contact.hours">Mon–Fri 8:30 a.m. - 6:00 p.m. CST</span>
+        </div>
+      </li>
+      <li>
+        <a
+          class="contact-simple__item"
+          href="https://uri.amap.com/marker?position=114.486989,38.001671&amp;name=%E5%A1%94%E5%9D%9B%E5%9B%BD%E9%99%85%E5%95%86%E8%B4%B8%E5%9F%8E4%E5%8F%B7%E5%86%99%E5%AD%97%E6%A5%BC&amp;src=solan&amp;callnative=1"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-i18n-aria="contact.mapAria"
+          aria-label="在高德地图中查看塔谈国际贸易城4号写字楼"
+        >
+          <span class="contact-simple__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z"/>
+              <circle cx="12" cy="10" r="2.5"/>
+            </svg>
+          </span>
+          <span data-i18n="contact.address">HQ: E4-0790, Tatan International Trade City, Shijiazhuang, China</span>
+        </a>
+      </li>
+    </ul>
+
+    <!-- 地址下方：位置示意图，点击跳转高德地图 -->
+    <a
+      class="contact-simple__map"
+      href="https://uri.amap.com/marker?position=114.486989,38.001671&amp;name=%E5%A1%94%E5%9D%9B%E5%9B%BD%E9%99%85%E5%95%86%E8%B4%B8%E5%9F%8E4%E5%8F%B7%E5%86%99%E5%AD%97%E6%A5%BC&amp;src=solan&amp;callnative=1"
+      target="_blank"
+      rel="noopener noreferrer"
+      data-i18n-aria="contact.mapAria"
+      aria-label="在高德地图中查看塔谈国际贸易城4号写字楼"
+    >
+      <img
+        class="contact-simple__map-img"
+        src="./img/amapposition.png"
+        alt="HQ location map - Tatan International Trade City Building 4, Shijiazhuang"
+        width="1589"
+        height="820"
+        loading="lazy"
+        data-i18n-alt="contact.mapAlt"
+      >
+      <span class="contact-simple__map-tip" data-i18n="contact.mapTip">在高德地图中查看 →</span>
+    </a>
+  </div>
+
+  <!-- 旧 Contact 页面暂时隐藏，便于后期恢复使用 -->
+  <div class="contact-legacy" hidden>
+    <span class="badge">Contact Us</span>
+    <h2 class="section-title">Contact Us | Hebei Solan Technology Co., Ltd</h2>
+    <div class="contact-grid">
+      <div>
+        <p><strong>Company Information</strong></p>
+        <p>Hebei Solan Technology Co., Ltd</p>
+        <p>Business Scope: Sports protective gear, fitness accessories, outdoor cycling supplies, functional active apparel, reflective safety workwear wholesale, OEM customization, Amazon FBA supply, DDP one-stop delivery service</p>
+        <p>Address: E4-0790, 4th Floor, Zone E, Tatan International Trade City, 118 Shengli South Street, Qiaoxi District, Shijiazhuang City, Hebei Province, China</p>
+        <p>Email: <a href="mailto:shelly910423@gmail.com">shelly910423@gmail.com</a></p>
+        <p>WhatsApp / Mobile: <a class="js-social-chat" href="https://web.whatsapp.com/send?phone=8615027442014" data-channel="whatsapp" data-account="8615027442014" data-text="Hello Solan, I would like to inquire about your products." rel="noopener noreferrer">0086 15027442014</a></p>
+        <p>Working Time: Monday-Saturday 08:30-18:00 (GMT+8)</p>
+        <div class="contact-tip">
+          <p class="contact-tip__title">Contact Inquiry</p>
+          <p>Please fill in the website form with your product demand, quantity, customization requirements and target market. Our professional sales team will reply with detailed quotation, product catalog and solution within 24 hours.</p>
+        </div>
+        <div class="social-channels" aria-label="Follow us">
+          <img class="social-channels__img" src="./img/contact-channels.png" alt="Follow us on WhatsApp, Facebook and LinkedIn" width="376" height="125" loading="lazy">
+          <div class="social-channels__hotspots">
+            <a class="js-social-chat social-channels__spot social-channels__spot--wa" href="https://web.whatsapp.com/send?phone=8615027442014&text=Hello%20Solan%2C%20I%20would%20like%20to%20inquire%20about%20your%20products." data-channel="whatsapp" data-account="8615027442014" data-text="Hello Solan, I would like to inquire about your products." rel="noopener noreferrer" aria-label="WhatsApp"></a>
+            <a class="js-social-chat social-channels__spot social-channels__spot--fb" href="https://m.me/8615027442014?text=Hello%20Solan%2C%20I%20would%20like%20to%20inquire%20about%20your%20products." data-channel="facebook" data-account="8615027442014" data-text="Hello Solan, I would like to inquire about your products." rel="noopener noreferrer" aria-label="Facebook Messenger"></a>
+            <a class="js-social-chat social-channels__spot social-channels__spot--li" href="https://www.linkedin.com/messaging/compose/?recipient=8615027442014&body=Hello%20Solan%2C%20I%20would%20like%20to%20inquire%20about%20your%20products." data-channel="linkedin" data-account="8615027442014" data-text="Hello Solan, I would like to inquire about your products." rel="noopener noreferrer" aria-label="LinkedIn Message"></a>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="inquiry-panel">
+          <h4>Send Us Inquiry</h4>
+          <form id="inquiry-form">
+            <div class="form-group"><input type="text" name="name" placeholder="Your Name / Company"></div>
+            <div class="form-group"><input type="email" name="email" placeholder="Email *" required></div>
+            <div class="form-group"><input type="text" name="demand" placeholder="Product demand, target quantity"></div>
+            <div class="form-group"><textarea name="message" rows="3" placeholder="Custom requirements, target market..."></textarea></div>
+            <button type="submit" class="btn-primary">Get Quote &amp; Catalog →</button>
+          </form>
+          <p class="inquiry-panel__note">We will reply within 24 hours. Clicking submit opens your email app to send the inquiry.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TERMS OF USE（不在导航栏，仅页脚入口） -->
+<section id="terms" class="section-block">
+  <div class="legal-page">
+    <h2 class="legal-page__heading">Terms of Use</h2>
+    <p class="legal-page__meta">Last Updated: August 1, 2026</p>
+
+    <div class="legal-page__body">
+      <p>Welcome to Solan. This website is operated by Hebei Solan Technology Co., Ltd. (“Solan”, “we”, “us”). This site serves our global customers for inquiries, product viewing and order cooperation.</p>
+      <p><strong>PLEASE READ THESE TERMS CAREFULLY BEFORE USING THIS WEBSITE.</strong> Your access to and use of our website confirms that you unconditionally accept and agree to be bound by these Terms of Use. If you do not agree to any part of these terms, you must stop using this website immediately.</p>
+      <p>By using this website, you warrant that you have full legal capacity to enter into this agreement. If you are under the age of 18, you may only use this site under supervision and consent of your parent or legal guardian.</p>
+
+      <h3>1. Privacy Policy</h3>
+      <p>Our <a href="#privacy" class="js-page-link">Privacy Policy</a> is incorporated into these Terms of Use. Please review the Privacy Policy to understand how we collect, store and process your personal data.</p>
+
+      <h3>2. Copyright &amp; Intellectual Property</h3>
+      <p>All content displayed on this website, including texts, product images, logos, graphics, descriptions and software codes, belongs to Solan or our authorized suppliers and is protected by international copyright laws.</p>
+      <p>You are granted a limited, non-commercial, non-exclusive license merely to browse the website. Without prior written approval from Solan, you may NOT:</p>
+      <ul>
+        <li>Copy, reproduce, modify, republish, distribute any website content;</li>
+        <li>Use crawlers, data mining, scraping tools to extract product data, pictures and pricing information;</li>
+        <li>Hotlink, frame or embed our images, logos and webpage layouts on third-party websites.</li>
+      </ul>
+      <p>If you believe your copyright has been infringed by content published on our site, you may send a complete notification to our official email. We will process valid infringement notices in a reasonable timeframe.</p>
+
+      <h3>3. Acceptable Use</h3>
+      <p>When using our website, you agree not to:</p>
+      <ol>
+        <li>Publish illegal, threatening, defamatory, discriminatory or offensive content;</li>
+        <li>Impersonate any individual or enterprise;</li>
+        <li>Upload computer viruses, malicious scripts that interfere with website operation;</li>
+        <li>Send unsolicited spam, bulk marketing messages via our contact channels;</li>
+        <li>Violate any applicable local, national or international laws and regulations.</li>
+      </ol>
+      <p>We reserve the right to block access and remove related content if violations occur.</p>
+
+      <h3>4. Account Rules (If applicable)</h3>
+      <p>If you register a user account on our site, you are responsible for keeping your login credentials confidential. All activities conducted under your account shall be your sole responsibility. You must notify us immediately if you discover unauthorized access to your account.</p>
+
+      <h3>5. Orders, Pricing &amp; Product Description</h3>
+      <p>All product prices displayed on the website are subject to confirmation. Solan reserves the right to correct pricing errors and update product information without prior notice. Colors shown on screen may differ slightly from physical goods due to monitor differences; we do not guarantee the display color is 100% identical to real products.</p>
+      <p>We reserve the right to refuse or cancel orders for reasonable reasons, including stock shortages, obvious price errors and suspected fraudulent transactions. We will contact you in advance where possible.</p>
+
+      <h3>6. Third-party Links</h3>
+      <p>Our website may contain links to external third-party websites. We have no control over these sites and are not responsible for their content, privacy policies or service quality. Links do not represent our recognition or endorsement. You access third-party sites at your own risk.</p>
+
+      <h3>7. Disclaimer</h3>
+      <p>This website is provided on an “as is” and “as available” basis. Solan does not guarantee continuous, error-free and uninterrupted website access. We shall not be liable for temporary site outages caused by server maintenance, network failures or force majeure events.</p>
+      <p>To the maximum extent permitted by law, Solan excludes all implied warranties. We are not responsible for indirect losses, lost profits or business interruption losses arising from your use or inability to use this website.</p>
+
+      <h3>8. Indemnification</h3>
+      <p>You agree to indemnify and hold Solan harmless against all claims, damages, expenses and legal fees arising from your breach of these terms, improper website use or content you submitted.</p>
+
+      <h3>9. Termination</h3>
+      <p>We may suspend or terminate your access to the website at any time without advance notice if you seriously violate these Terms of Use. Upon termination, you must cease all use of this website and delete all downloaded materials obtained from our site. We also reserve the right to suspend or shut down all or part of the website service.</p>
+
+      <h3>10. General Clauses</h3>
+      <h4>Force Majeure</h4>
+      <p>Solan shall not be liable for any failure of obligations caused by events beyond reasonable control, including natural disasters, pandemic, transportation disruption, government restrictions.</p>
+      <h4>Severability</h4>
+      <p>If any clause of this agreement is found invalid or unenforceable, the remaining clauses shall remain fully effective.</p>
+      <h4>Governing Law</h4>
+      <p>These Terms of Use shall be governed by the laws of the People’s Republic of China. Any dispute arising out of or related to this website shall be resolved through friendly negotiation first. If negotiation fails, disputes shall be submitted to the People’s Court located in Shijiazhuang, Hebei Province.</p>
+      <h4>Modification of Terms</h4>
+      <p>Solan reserves the right to revise these Terms of Use regularly. Updated terms take effect once published online. Your continued website use after updates means you accept the revised terms.</p>
+      <p>If you have any questions regarding these Terms of Use, please contact us via official email: <a href="mailto:shelly910423@gmail.com">shelly910423@gmail.com</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACY（不在导航栏，仅页脚入口） -->
+<section id="privacy" class="section-block">
+  <div class="legal-page">
+    <h2 class="legal-page__heading">Privacy Policy</h2>
+    <p class="legal-page__meta">Last Updated: August 1, 2026</p>
+
+    <div class="legal-page__body">
+      <p>Hebei Solan Technology Co., Ltd. (“Solan”, “we”, “us”) respects your privacy. This Privacy Policy explains how we collect, use, store and protect your personal information when you visit our official website.</p>
+
+      <h3>1. Information We Collect</h3>
+      <p>We may collect the following information you voluntarily submit:</p>
+      <ul>
+        <li>Your name, company name, email address, phone number when you fill in inquiry forms;</li>
+        <li>Message content you send to us;</li>
+        <li>Optional delivery information, if you place orders via our website.</li>
+      </ul>
+      <p>Automatically collected technical data:</p>
+      <ul>
+        <li>IP address, browser type, device information, access time, pages visited on our website. We do not collect sensitive personal data such as ID information, payment card information unless you voluntarily provide such data for formal order processing.</li>
+      </ul>
+
+      <h3>2. How We Use Your Information</h3>
+      <p>We use your personal data only for the below purposes:</p>
+      <ol>
+        <li>Reply your product inquiries, quotation requests and follow up cooperation;</li>
+        <li>Process orders, arrange delivery and after-sales communication;</li>
+        <li>Maintain normal website operation, analyze visitor data to optimize website experience;</li>
+        <li>Send relevant product updates and promotion information, only if you explicitly consent to receive marketing emails.</li>
+      </ol>
+      <p>We will not sell, rent or trade your personal information to unrelated third parties for commercial purposes without your explicit permission.</p>
+
+      <h3>3. Data Sharing</h3>
+      <p>We may share your necessary information only in limited scenarios:</p>
+      <ul>
+        <li>Authorized logistics suppliers to complete delivery;</li>
+        <li>Required by laws, court orders or official regulatory requirements.</li>
+      </ul>
+      <p>All third-party partners must protect your data in compliance with relevant privacy regulations.</p>
+
+      <h3>4. Cookies</h3>
+      <p>Our website may use cookies to improve browsing experience. You can adjust your browser settings to reject cookies. Disabling cookies may affect partial functions of the website.</p>
+
+      <h3>5. Data Security</h3>
+      <p>We adopt reasonable technical and organizational measures to protect your personal information against unauthorized access, leakage or misuse. However, no internet transmission method can guarantee absolute security.</p>
+
+      <h3>6. Your Rights</h3>
+      <p>Depending on applicable local regulations (including GDPR for European visitors), you have the right to:</p>
+      <ul>
+        <li>Request access to the personal data we store about you;</li>
+        <li>Request correction of inaccurate personal information;</li>
+        <li>Request deletion of your personal data;</li>
+        <li>Withdraw your consent to receive marketing emails at any time.</li>
+      </ul>
+      <p>You can submit related requests by contacting our official email. We will respond within a reasonable period.</p>
+
+      <h3>7. Minors</h3>
+      <p>We do not target minors under 18. If you are a minor, please do not submit personal information without parent’s approval.</p>
+
+      <h3>8. Third-party Websites</h3>
+      <p>Our website may contain links to external sites. This privacy policy only applies to Solan official website. We are not responsible for the data rules of third-party platforms.</p>
+
+      <h3>9. Data Storage</h3>
+      <p>Your data will be stored within China. We keep your information only as long as necessary to fulfill the purposes mentioned in this policy.</p>
+
+      <h3>10. Policy Updates</h3>
+      <p>We may update this Privacy Policy occasionally. The latest version will be published on our website with updated date. Continued website use represents acceptance of updated rules.</p>
+      <p>For privacy related questions, please contact our official email: <a href="mailto:shelly910423@gmail.com">shelly910423@gmail.com</a>.</p>
+    </div>
+  </div>
+</section>
+
+  </div>
+</main>
+
+<!-- 页脚：版权 + 法律入口 -->
+<footer>
+  <div class="container footer-bar">
+    <!-- <p>© 2026 Hebei Solan Technology Co., Ltd — <a href="http://www.solanactive.com" target="_blank" rel="noopener noreferrer">solanactive.com</a>  |  Sports Protective Gear · Activewear · Outdoor Cycling · Amazon Supply</p> -->
+    <p data-i18n="footer.copy" data-i18n-html>© 2026 Hebei Solan Technology Co., Ltd. <a href="http://www.solanactive.com" target="_blank" rel="noopener noreferrer">Solanactive.com</a>. All Rights Reserved.</p>
+    <p class="footer-links">
+      <a href="#terms" class="js-page-link" data-i18n="footer.terms">Terms of Use</a>
+      <span class="footer-links__sep" aria-hidden="true">·</span>
+      <a href="#privacy" class="js-page-link" data-i18n="footer.privacy">Privacy Policy</a>
+    </p>
+  </div>
+</footer>
+
+<!-- 全局悬浮联系按钮组：WhatsApp / Facebook / LinkedIn -->
+<div class="whatsapp-float-group" aria-label="Quick contact">
+  <a
+    class="whatsapp-float js-social-chat"
+    href="https://web.whatsapp.com/send?phone=8615027442014&text=Hello%20Solan%2C%20I%20would%20like%20to%20inquire%20about%20your%20products."
+    data-channel="whatsapp"
+    data-account="8615027442014"
+    data-text="Hello Solan, I would like to inquire about your products."
+    rel="noopener noreferrer"
+    aria-label="Chat on WhatsApp"
+  >
+    <span class="whatsapp-float__pulse" aria-hidden="true"></span>
+    <span class="whatsapp-float__pulse whatsapp-float__pulse--delay" aria-hidden="true"></span>
+    <span class="whatsapp-float__icon" aria-hidden="true">
+      <svg viewBox="0 0 32 32" width="28" height="28" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16.004 3C9.382 3 4 8.382 4 15.004c0 2.117.553 4.184 1.605 6.01L4 29l8.168-1.57A11.95 11.95 0 0 0 16.004 27C22.626 27 28 21.618 28 15.004 28 8.382 22.626 3 16.004 3zm0 21.84a9.82 9.82 0 0 1-5.004-1.37l-.36-.214-4.844.93.916-4.72-.234-.386a9.82 9.82 0 0 1-1.51-5.076c0-5.43 4.42-9.85 9.85-9.85 5.43 0 9.85 4.42 9.85 9.85 0 5.43-4.42 9.836-9.664 9.836zm5.41-7.37c-.296-.148-1.75-.863-2.022-.96-.27-.1-.468-.148-.665.148-.198.296-.762.96-.934 1.16-.172.197-.344.222-.64.074-.296-.148-1.25-.46-2.38-1.47-.88-.785-1.474-1.754-1.648-2.05-.172-.296-.018-.456.13-.603.133-.133.296-.345.444-.518.148-.172.197-.296.296-.494.1-.197.05-.37-.025-.518-.074-.148-.665-1.603-.91-2.196-.24-.576-.485-.498-.665-.507l-.567-.01c-.198 0-.518.074-.79.37-.27.296-1.036 1.012-1.036 2.468 0 1.456 1.06 2.863 1.208 3.06.148.197 2.086 3.185 5.054 4.465.706.305 1.258.487 1.688.623.71.226 1.356.194 1.867.118.57-.086 1.75-.715 2-1.406.246-.69.246-1.282.172-1.406-.074-.123-.27-.197-.566-.345z"/>
+      </svg>
+    </span>
+    <span class="whatsapp-float__tip">WhatsApp</span>
+  </a>
+
+  <!-- <a
+    class="whatsapp-float whatsapp-float--facebook js-social-chat"
+    href="https://m.me/8615027442014?text=Hello%20Solan%2C%20I%20would%20like%20to%20inquire%20about%20your%20products."
+    data-channel="facebook"
+    data-account="8615027442014"
+    data-text="Hello Solan, I would like to inquire about your products."
+    rel="noopener noreferrer"
+    aria-label="Chat on Facebook Messenger"
+  >
+    <span class="whatsapp-float__icon" aria-hidden="true">
+      <svg viewBox="0 0 32 32" width="26" height="26" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 3C8.82 3 3 8.5 3 15.27c0 3.9 1.94 7.38 4.97 9.65V29l4.55-2.5c1.12.31 2.3.48 3.48.48 7.18 0 13-5.5 13-12.27C29 8.5 23.18 3 16 3zm1.28 16.58l-3.32-3.54-6.48 3.54 7.13-7.57 3.4 3.54 6.4-3.54-7.13 7.57z"/>
+      </svg>
+    </span>
+    <span class="whatsapp-float__tip">Messenger</span>
+  </a>
+
+  <a
+    class="whatsapp-float whatsapp-float--linkedin js-social-chat"
+    href="https://www.linkedin.com/messaging/compose/?recipient=8615027442014&body=Hello%20Solan%2C%20I%20would%20like%20to%20inquire%20about%20your%20products."
+    data-channel="linkedin"
+    data-account="8615027442014"
+    data-text="Hello Solan, I would like to inquire about your products."
+    rel="noopener noreferrer"
+    aria-label="Message on LinkedIn"
+  >
+    <span class="whatsapp-float__icon" aria-hidden="true">
+      <svg viewBox="0 0 32 32" width="24" height="24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.5 12.2h4.1V25H6.5V12.2zM8.55 7A2.4 2.4 0 1 1 8.54 11.8 2.4 2.4 0 0 1 8.55 7zM13.3 12.2h3.94v1.75h.06c.55-1.04 1.9-2.14 3.9-2.14 4.17 0 4.94 2.75 4.94 6.32V25h-4.1v-6.05c0-1.44-.03-3.3-2.01-3.3-2.01 0-2.32 1.57-2.32 3.2V25h-4.1V12.2z"/>
+      </svg>
+    </span>
+    <span class="whatsapp-float__tip">LinkedIn</span>
+  </a> -->
+</div>
+
+<script src="./js/translations.js"></script>
+<script src="./js/i18n.js"></script>
+<script src="./js/inquiry.js"></script>
+<script src="./js/pages.js"></script>
+<script src="./js/whatsapp.js"></script>
+<script>
+  (function() {
+    // 绑定询盘表单：通过 mailto 发到指定邮箱
+    if (window.SolanInquiry) {
+      window.SolanInquiry.bindInquiryForm('inquiry-form')
+    }
+
+    var navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 20) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
       }
-
-      document.addEventListener('solan:ready', onCommontsReady)
-    })()
-  </script>
+    });
+  })();
+</script>
 </body>
 </html>
