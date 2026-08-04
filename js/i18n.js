@@ -6,12 +6,11 @@
   var STORAGE_KEY = 'solan-lang'
   /** 默认语言（与页面当前英文文案一致） */
   var DEFAULT_LANG = 'en'
-  /** 支持的语言列表 */
-  var SUPPORTED = ['en', 'zh', 'ko', 'ja', 'fr', 'de']
+  /** 支持的语言列表（不含中文） */
+  var SUPPORTED = ['en', 'ko', 'ja', 'fr', 'de']
   /** 按钮上显示的短标签 */
   var LANG_LABELS = {
     en: 'EN',
-    zh: '中文',
     ko: '한국어',
     ja: '日本語',
     fr: 'FR',
@@ -20,7 +19,6 @@
   /** html lang 属性映射 */
   var HTML_LANG = {
     en: 'en',
-    zh: 'zh-CN',
     ko: 'ko',
     ja: 'ja',
     fr: 'fr',

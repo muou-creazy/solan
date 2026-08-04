@@ -51,7 +51,7 @@ main {
   box-shadow: 0 8px 28px rgba(10, 14, 20, 0.28);
 }
 
-/* Logo 行：深炭黑，左 Logo / 右社交渠道，限制行高 */
+/* Logo 行：浅底，左 Logo / 右社交渠道，限制行高（浅底便于 logo 文字辨认） */
 .logo-bar {
   background: #141a22;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
@@ -78,14 +78,14 @@ main {
 }
 
 .logo-image {
-  width: 56px;
+  width: 70px;
   height: 50px;
   object-fit: contain;
   border-radius: 10px;
   flex-shrink: 0;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  border: 1.5px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px solid rgba(20, 26, 34, 0.1);
+  background: #f7f9fc;
   padding: 4px;
 }
 
@@ -98,7 +98,7 @@ main {
 .logo-text {
   font-weight: 700;
   font-size: 1.25rem;
-  color: #f3f5f7;
+  color: #1a1a1a;
   letter-spacing: -0.02em;
   line-height: 1;
 }
@@ -107,25 +107,27 @@ main {
   color: #e06a52;
 }
 
-/* 顶栏社交渠道：按新图 376×125 比例定宽，避免热区错位 */
+/* 顶栏社交渠道：contain 完整显示边缘，内边距让图标/文字略缩小 */
 .social-channels--header {
-  --channels-h: 42px;
+  --channels-h: 36px;
   position: relative;
   margin: 0;
   height: var(--channels-h);
   width: calc(var(--channels-h) * 376 / 125);
   aspect-ratio: 376 / 125;
-  border-radius: 8px;
+  border-radius: 6px;
   overflow: hidden;
   flex-shrink: 0;
   background: #000;
+  box-sizing: border-box;
+  padding: 2px 6px;
 }
 
 .social-channels--header .social-channels__img {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
 }
 
@@ -155,8 +157,9 @@ main {
   }
 
   .social-channels--header {
-    --channels-h: 34px;
-    border-radius: 6px;
+    --channels-h: 30px;
+    border-radius: 5px;
+    padding: 4px 7px;
   }
 }
 
@@ -1464,7 +1467,7 @@ a.contact-simple__item:hover {
 .social-channels {
   position: relative;
   margin-top: 0.5rem;
-  width: min(100%, 180px);
+  width: min(100%, 120px);
   aspect-ratio: 376 / 125;
   border-radius: 18px;
   overflow: hidden;
