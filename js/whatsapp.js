@@ -357,14 +357,11 @@
       openChat('whatsapp', phone, text)
     },
     bindChatLinks: bindChatLinks,
+    init: bindChatLinks,
     buildUrls: function (phone, text) {
       return buildUrls('whatsapp', phone, text)
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bindChatLinks)
-  } else {
-    bindChatLinks()
-  }
+  // 等待 commonts 模块注入后再初始化（由 index 在 solan:ready 时调用）
 })(window)

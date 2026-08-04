@@ -68,12 +68,9 @@
 
   window.SolanPages = {
     showPage: showPage,
-    getPageIdFromHash: getPageIdFromHash
+    getPageIdFromHash: getPageIdFromHash,
+    init: bindPageRouter
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bindPageRouter)
-  } else {
-    bindPageRouter()
-  }
+  // 等待 commonts 模块注入后再初始化（由 index 在 solan:ready 时调用）
 })()
