@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-header-style="classic">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,26 +15,18 @@
   <link href="./style/index.css" rel="stylesheet">
 </head>
 <body>
-<!-- 顶部站点头：Logo 行 + 导航 + 语言切换 -->
-<header class="site-header" id="navbar">
-  <!-- 顶部 Logo 行：左 Logo，右社交渠道 -->
+<!-- 顶部站点头：Logo 行 + 导航 + 语言切换（A classic / B brand / C utility / D overlap） -->
+<header class="site-header" id="navbar" data-header-style="classic">
+  <!-- 顶部 Logo 行：仅 Logo（联系渠道已移至导航行） -->
   <div class="logo-bar">
     <div class="container">
       <a href="#home" class="logo-wrapper">
         <img class="logo-image" src="./img/logo.png" alt="Solan Logo" width="36" height="36">
         <!-- <span class="logo-text">Solan</span> -->
       </a>
-      <div class="social-channels social-channels--header" aria-label="Follow us">
-        <img class="social-channels__img" src="./img/contact-channels.png" alt="Follow us on WhatsApp, Facebook and LinkedIn" width="376" height="125" loading="eager">
-        <div class="social-channels__hotspots">
-          <a class="js-social-chat social-channels__spot social-channels__spot--wa" href="https://web.whatsapp.com/send?phone=8615027442014&text=Hello%20Solan%2C%20I%20would%20like%20to%20inquire%20about%20your%20products." data-channel="whatsapp" data-account="8615027442014" data-text="Hello Solan, I would like to inquire about your products." rel="noopener noreferrer" aria-label="WhatsApp"></a>
-          <a class="js-social-chat social-channels__spot social-channels__spot--fb" href="https://m.me/8615027442014?text=Hello%20Solan%2C%20I%20would%20like%20to%20inquire%20about%20your%20products." data-channel="facebook" data-account="8615027442014" data-text="Hello Solan, I would like to inquire about your products." rel="noopener noreferrer" aria-label="Facebook Messenger"></a>
-          <a class="js-social-chat social-channels__spot social-channels__spot--li" href="https://www.linkedin.com/messaging/compose/?recipient=8615027442014&body=Hello%20Solan%2C%20I%20would%20like%20to%20inquire%20about%20your%20products." data-channel="linkedin" data-account="8615027442014" data-text="Hello Solan, I would like to inquire about your products." rel="noopener noreferrer" aria-label="LinkedIn Message"></a>
-        </div>
-      </div>
     </div>
   </div>
-  <!-- 导航行：菜单居中，右侧语言切换 -->
+  <!-- 导航行：菜单居中，右侧联系渠道 + 语言切换 -->
   <nav class="navbar">
     <div class="container">
       <div class="nav-links">
@@ -46,19 +38,29 @@
         <a href="#faq" class="nav-link--dormant" hidden data-i18n="nav.faq">FAQ</a>
         <a href="#contact" data-i18n="nav.contact">Contact</a>
       </div>
-      <div class="lang-switcher" id="lang-switcher">
-        <button type="button" class="lang-switcher__btn" id="lang-switcher-btn" aria-haspopup="listbox" aria-expanded="false" data-i18n-aria="lang.aria">
-          <span class="lang-switcher__current" id="lang-switcher-current">EN</span>
-          <span class="lang-switcher__chevron" aria-hidden="true"></span>
-        </button>
-        <ul class="lang-switcher__menu" id="lang-switcher-menu" role="listbox" hidden>
-          <li role="option" tabindex="0" data-lang="en" aria-selected="true">English</li>
-          <li role="option" tabindex="0" data-lang="es" aria-selected="false">Español</li>
-          <li role="option" tabindex="0" data-lang="ko" aria-selected="false">한국어</li>
-          <li role="option" tabindex="0" data-lang="ja" aria-selected="false">日本語</li>
-          <li role="option" tabindex="0" data-lang="fr" aria-selected="false">Français</li>
-          <li role="option" tabindex="0" data-lang="de" aria-selected="false">Deutsch</li>
-        </ul>
+      <div class="header-nav-tools">
+        <div class="social-channels social-channels--header" aria-label="Follow us">
+          <img class="social-channels__img" src="./img/contact-channels.png" alt="Follow us on WhatsApp, Facebook and LinkedIn" width="376" height="125" loading="eager">
+          <div class="social-channels__hotspots">
+            <a class="js-social-chat social-channels__spot social-channels__spot--wa" href="https://web.whatsapp.com/send?phone=8615027442014&text=Hello%20Solan%2C%20I%20would%20like%20to%20inquire%20about%20your%20products." data-channel="whatsapp" data-account="8615027442014" data-text="Hello Solan, I would like to inquire about your products." rel="noopener noreferrer" aria-label="WhatsApp"></a>
+            <a class="js-social-chat social-channels__spot social-channels__spot--fb" href="https://m.me/8615027442014?text=Hello%20Solan%2C%20I%20would%20like%20to%20inquire%20about%20your%20products." data-channel="facebook" data-account="8615027442014" data-text="Hello Solan, I would like to inquire about your products." rel="noopener noreferrer" aria-label="Facebook Messenger"></a>
+            <a class="js-social-chat social-channels__spot social-channels__spot--li" href="https://www.linkedin.com/messaging/compose/?recipient=8615027442014&body=Hello%20Solan%2C%20I%20would%20like%20to%20inquire%20about%20your%20products." data-channel="linkedin" data-account="8615027442014" data-text="Hello Solan, I would like to inquire about your products." rel="noopener noreferrer" aria-label="LinkedIn Message"></a>
+          </div>
+        </div>
+        <div class="lang-switcher" id="lang-switcher">
+          <button type="button" class="lang-switcher__btn" id="lang-switcher-btn" aria-haspopup="listbox" aria-expanded="false" data-i18n-aria="lang.aria">
+            <span class="lang-switcher__current" id="lang-switcher-current">EN</span>
+            <span class="lang-switcher__chevron" aria-hidden="true"></span>
+          </button>
+          <ul class="lang-switcher__menu" id="lang-switcher-menu" role="listbox" hidden>
+            <li role="option" tabindex="0" data-lang="en" aria-selected="true">English</li>
+            <li role="option" tabindex="0" data-lang="es" aria-selected="false">Español</li>
+            <li role="option" tabindex="0" data-lang="ko" aria-selected="false">한국어</li>
+            <li role="option" tabindex="0" data-lang="ja" aria-selected="false">日本語</li>
+            <li role="option" tabindex="0" data-lang="fr" aria-selected="false">Français</li>
+            <li role="option" tabindex="0" data-lang="de" aria-selected="false">Deutsch</li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>
@@ -547,8 +549,28 @@
   </a> -->
 </div>
 
+<!-- 顶栏样式切换：左下角固定，便于对比 A/B/C/D -->
+<div class="header-style-switcher" id="header-style-switcher" role="group" data-i18n-aria="headerStyle.aria" aria-label="Header style">
+  <span class="header-style-switcher__label" data-i18n="headerStyle.label">Header</span>
+  <div class="header-style-switcher__btns">
+    <button type="button" class="header-style-switcher__btn" data-header-style-option="classic" aria-pressed="true" data-i18n-aria="headerStyle.classicAria" aria-label="Classic header">
+      <span data-i18n="headerStyle.classic">A</span>
+    </button>
+    <button type="button" class="header-style-switcher__btn" data-header-style-option="brand" aria-pressed="false" data-i18n-aria="headerStyle.brandAria" aria-label="Brand header">
+      <span data-i18n="headerStyle.brand">B</span>
+    </button>
+    <button type="button" class="header-style-switcher__btn" data-header-style-option="utility" aria-pressed="false" data-i18n-aria="headerStyle.utilityAria" aria-label="Utility header">
+      <span data-i18n="headerStyle.utility">C</span>
+    </button>
+    <button type="button" class="header-style-switcher__btn" data-header-style-option="overlap" aria-pressed="false" data-i18n-aria="headerStyle.overlapAria" aria-label="Overlap header">
+      <span data-i18n="headerStyle.overlap">D</span>
+    </button>
+  </div>
+</div>
+
 <script src="./js/translations.js"></script>
 <script src="./js/i18n.js"></script>
+<script src="./js/header-style.js"></script>
 <script src="./js/inquiry.js"></script>
 <script src="./js/pages.js"></script>
 <script src="./js/whatsapp.js"></script>
