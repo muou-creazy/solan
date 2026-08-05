@@ -128,37 +128,46 @@ html[data-header-sticky="off"] .site-header.scrolled {
   color: #e06a52;
 }
 
-/* 顶栏社交渠道：contain 完整显示边缘，内边距让图标/文字略缩小 */
+/* 顶栏社交渠道：仅 Facebook + LinkedIn 图标 */
 .social-channels--header {
   --channels-h: 36px;
   position: relative;
   margin: 0;
   height: var(--channels-h);
-  width: calc(var(--channels-h) * 376 / 125);
-  aspect-ratio: 376 / 125;
-  border-radius: 6px;
-  overflow: hidden;
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 0;
+  overflow: visible;
   flex-shrink: 0;
-  /* background: #000; */
   background: transparent;
   box-sizing: border-box;
-  padding: 2px 6px;
+  padding: 0;
 }
 
-.social-channels--header .social-channels__img {
+.social-channels--header .social-channels__icon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--channels-h);
+  height: var(--channels-h);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.social-channels--header .social-channels__icon-link:hover {
+  transform: translateY(-1px) scale(1.06);
+  opacity: 0.92;
+}
+
+.social-channels--header .social-channels__icon {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  object-position: center;
-}
-
-.social-channels--header .social-channels__hotspots a:hover {
-  background: rgba(255, 255, 255, 0.4);
-  /* background: rgb(255, 0, 0, 0.3); */
-  /* background: linear-gradient(145deg, #c4452b 0%, #a83824 100%);
-  box-shadow: 0 14px 32px rgba(196, 69, 43, 0.32);
-  opacity: 0.5; */
+  border-radius: 8px;
 }
 
 @media (max-width: 500px) {
@@ -179,9 +188,8 @@ html[data-header-sticky="off"] .site-header.scrolled {
   }
 
   .social-channels--header {
-    --channels-h: 28px;
-    border-radius: 5px;
-    padding: 2px 4px;
+    --channels-h: 30px;
+    gap: 6px;
   }
 }
 
@@ -752,7 +760,7 @@ html[data-header-style="overlap"] .logo-bar {
 
   html[data-header-style="brand"] .social-channels--header,
   html[data-header-style="utility"] .social-channels--header {
-    --channels-h: 40px;
+    --channels-h: 30px;
   }
 }
 
@@ -2100,7 +2108,7 @@ a.contact-simple__item:hover {
   margin-top: 0.5rem;
   width: min(100%, 120px);
   aspect-ratio: 376 / 125;
-  border-radius: 18px;
+  /* border-radius: 18px; */
   overflow: hidden;
   /* background: #000; */
   background: #F7F9FC;
@@ -2182,7 +2190,7 @@ a.contact-simple__item:hover {
   align-items: center;
   justify-content: center;
   border-radius: 18px;
-  background: linear-gradient(145deg, #0b2b3d 0%, #163a4f 55%, #1a455c 100%);
+  /* background: linear-gradient(145deg, #0b2b3d 0%, #163a4f 55%, #1a455c 100%); */
   color: #fff;
   text-decoration: none;
   font-size: 0.82rem;
@@ -2205,6 +2213,14 @@ a.contact-simple__item:hover {
   display: flex;
   line-height: 0;
   transition: transform 0.3s ease;
+}
+
+.whatsapp-float__icon img {
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 6px;
 }
 
 .whatsapp-float__pulse,
