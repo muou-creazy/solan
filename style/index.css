@@ -39,7 +39,7 @@ main {
   padding: 0 24px;
 }
 
-/* ===== 站点顶栏：Logo 行 + 导航行（classic 基线；brand / utility 见下方覆盖） ===== */
+/* ===== 站点顶栏：Logo 行 + 导航行（classic 基线；brand / utility / overlap 见下方覆盖） ===== */
 .site-header {
   position: sticky;
   top: 0;
@@ -47,8 +47,18 @@ main {
   transition: box-shadow 0.3s;
 }
 
+/* 关闭顶栏固定：随页面滚动离开视口 */
+html[data-header-sticky="off"] .site-header {
+  position: relative;
+  top: auto;
+}
+
 .site-header.scrolled {
   box-shadow: 0 8px 28px rgba(10, 14, 20, 0.28);
+}
+
+html[data-header-sticky="off"] .site-header.scrolled {
+  box-shadow: none;
 }
 
 /* Logo 行：浅底，仅 Logo（联系渠道在导航行） */
@@ -713,7 +723,7 @@ html[data-header-style="overlap"] .logo-bar {
   }
 }
 
-/* ===== 左下角顶栏样式切换控件 ===== */
+/* ===== 左下角顶栏样式 / 固定切换控件 ===== */
 .header-style-switcher {
   position: fixed;
   left: 16px;
@@ -721,7 +731,8 @@ html[data-header-style="overlap"] .logo-bar {
   z-index: 210;
   display: flex;
   align-items: center;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 10px 12px;
   padding: 8px 10px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.94);
@@ -729,6 +740,19 @@ html[data-header-style="overlap"] .logo-bar {
   box-shadow: 0 10px 28px rgba(10, 14, 20, 0.12);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+}
+
+.header-style-switcher__group {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-style-switcher__divider {
+  width: 1px;
+  align-self: stretch;
+  min-height: 28px;
+  background: #e5e8ee;
 }
 
 .header-style-switcher__label {
@@ -778,10 +802,15 @@ html[data-header-style="overlap"] .logo-bar {
     left: 10px;
     bottom: 10px;
     padding: 6px 8px;
-    gap: 6px;
+    gap: 6px 8px;
+    max-width: calc(100vw - 20px);
   }
 
   .header-style-switcher__label {
+    display: none;
+  }
+
+  .header-style-switcher__divider {
     display: none;
   }
 }

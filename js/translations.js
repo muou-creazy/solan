@@ -98,6 +98,12 @@ window.SolanTranslations = {
     'headerStyle.utilityAria': 'Utility header layout',
     'headerStyle.overlap': 'D',
     'headerStyle.overlapAria': 'Single-row header with prominent logo',
+    'headerSticky.aria': 'Pin header to top',
+    'headerSticky.label': 'Pin',
+    'headerSticky.on': 'On',
+    'headerSticky.off': 'Off',
+    'headerSticky.onAria': 'Keep header fixed at top',
+    'headerSticky.offAria': 'Header scrolls away with page',
     'footer.privacy': 'Privacy Policy'
   },
 
@@ -196,6 +202,12 @@ window.SolanTranslations = {
     'headerStyle.utilityAria': 'Diseño de encabezado utilitario',
     'headerStyle.overlap': 'D',
     'headerStyle.overlapAria': 'Encabezado de una fila con logo destacado',
+    'headerSticky.aria': 'Fijar encabezado arriba',
+    'headerSticky.label': 'Fijar',
+    'headerSticky.on': 'On',
+    'headerSticky.off': 'Off',
+    'headerSticky.onAria': 'Mantener el encabezado fijo arriba',
+    'headerSticky.offAria': 'El encabezado se desplaza con la página',
     'footer.privacy': 'Política de privacidad'
   },
 
@@ -294,6 +306,12 @@ window.SolanTranslations = {
     'headerStyle.utilityAria': '功能工具型顶栏布局',
     'headerStyle.overlap': 'D',
     'headerStyle.overlapAria': '单行顶栏并突出 Logo',
+    'headerSticky.aria': '顶栏是否固定在顶部',
+    'headerSticky.label': '固定',
+    'headerSticky.on': '开',
+    'headerSticky.off': '关',
+    'headerSticky.onAria': '顶栏固定在页面顶部',
+    'headerSticky.offAria': '顶栏随页面滚动离开',
     'footer.privacy': '隐私政策'
   },
 
@@ -392,6 +410,12 @@ window.SolanTranslations = {
     'headerStyle.utilityAria': '유틸리티 헤더 레이아웃',
     'headerStyle.overlap': 'D',
     'headerStyle.overlapAria': '로고가 돋보이는 단일 행 헤더',
+    'headerSticky.aria': '헤더 상단 고정',
+    'headerSticky.label': '고정',
+    'headerSticky.on': 'On',
+    'headerSticky.off': 'Off',
+    'headerSticky.onAria': '헤더를 상단에 고정',
+    'headerSticky.offAria': '헤더가 페이지와 함께 스크롤',
     'footer.privacy': '개인정보 처리방침'
   },
 
@@ -490,6 +514,12 @@ window.SolanTranslations = {
     'headerStyle.utilityAria': 'ユーティリティヘッダーレイアウト',
     'headerStyle.overlap': 'D',
     'headerStyle.overlapAria': 'ロゴを強調した単一行ヘッダー',
+    'headerSticky.aria': 'ヘッダーを上部に固定',
+    'headerSticky.label': '固定',
+    'headerSticky.on': 'On',
+    'headerSticky.off': 'Off',
+    'headerSticky.onAria': 'ヘッダーを上部に固定する',
+    'headerSticky.offAria': 'ヘッダーはページと一緒にスクロール',
     'footer.privacy': 'プライバシーポリシー'
   },
 
@@ -588,6 +618,12 @@ window.SolanTranslations = {
     'headerStyle.utilityAria': 'Mise en page d’en-tête utilitaire',
     'headerStyle.overlap': 'D',
     'headerStyle.overlapAria': 'En-tête une ligne avec logo proéminent',
+    'headerSticky.aria': 'Épingler l’en-tête en haut',
+    'headerSticky.label': 'Fixe',
+    'headerSticky.on': 'On',
+    'headerSticky.off': 'Off',
+    'headerSticky.onAria': 'Garder l’en-tête fixe en haut',
+    'headerSticky.offAria': 'L’en-tête défile avec la page',
     'footer.privacy': 'Politique de confidentialité'
   },
 
@@ -686,6 +722,12 @@ window.SolanTranslations = {
     'headerStyle.utilityAria': 'Utility-Kopfzeilenlayout',
     'headerStyle.overlap': 'D',
     'headerStyle.overlapAria': 'Einzeilige Kopfzeile mit hervorgehobenem Logo',
+    'headerSticky.aria': 'Kopfzeile oben anheften',
+    'headerSticky.label': 'Pin',
+    'headerSticky.on': 'On',
+    'headerSticky.off': 'Off',
+    'headerSticky.onAria': 'Kopfzeile oben fixieren',
+    'headerSticky.offAria': 'Kopfzeile scrollt mit der Seite',
     'footer.privacy': 'Datenschutzrichtlinie'
   }
 }
