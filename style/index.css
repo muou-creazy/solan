@@ -1545,6 +1545,10 @@ footer a:hover {
     flex-wrap: wrap;
   }
 
+  .container {
+    padding: 0 4px;
+  }
+
   .nav-links {
     flex: 1;
     justify-content: center;
