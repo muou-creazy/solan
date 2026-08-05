@@ -1989,7 +1989,7 @@ a.contact-simple__item:hover {
 
 .social-channels {
   position: relative;
-  margin-top: 0.5rem;
+  /* margin-top: 0.5rem; */
   width: min(100%, 120px);
   aspect-ratio: 376 / 125;
   /* border-radius: 18px; */
