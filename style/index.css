@@ -44,7 +44,7 @@ html {
   --logo-size: 100px;
 }
 
-/* ===== 站点顶栏：Logo 行 + 导航行（classic 基线；brand / utility / overlap 见下方覆盖） ===== */
+/* ===== 站点顶栏：结构基线（brand / utility 见下方覆盖） ===== */
 .site-header {
   position: sticky;
   top: 0;
@@ -219,7 +219,7 @@ html[data-header-sticky="off"] .site-header.scrolled {
   flex-wrap: wrap;
 }
 
-/* classic：右侧工具区（联系渠道 + 语言切换） */
+/* 右侧工具区（联系渠道 + 语言切换） */
 .header-nav-tools {
   position: absolute;
   right: 0;
@@ -522,93 +522,6 @@ html[data-header-style="utility"] .logo-bar {
   border-bottom: none;
 }
 
-/* ===== 顶栏样式 overlap（D）：基于 A，去掉 Logo 行，导航上顶，大 Logo 突出 ===== */
-html[data-header-style="overlap"] .site-header {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto auto;
-  align-items: center;
-  height: 58px;
-  min-height: 58px;
-  max-height: 58px;
-  column-gap: 20px;
-  padding: 0 max(24px, calc((100% - 1280px) / 2));
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border-bottom: 1px solid rgba(238, 241, 245, 0.95);
-  overflow: visible;
-}
-
-html[data-header-style="overlap"] .logo-bar,
-html[data-header-style="overlap"] .navbar,
-html[data-header-style="overlap"] .logo-bar .container,
-html[data-header-style="overlap"] .navbar .container,
-html[data-header-style="overlap"] .header-nav-tools {
-  display: contents;
-}
-
-html[data-header-style="overlap"] .logo-wrapper {
-  grid-column: 1;
-  grid-row: 1;
-  position: relative;
-  top: 22px;
-  z-index: 5;
-  align-self: center;
-  height: 58px;
-  display: flex;
-  align-items: center;
-  overflow: visible;
-}
-
-/* Logo 尺寸与 A 一致，超出导航行高度仍完整显示 */
-html[data-header-style="overlap"] .logo-image {
-  width: var(--logo-size);
-  height: auto;
-  max-height: none;
-}
-
-html[data-header-style="overlap"] .nav-links {
-  grid-column: 2;
-  grid-row: 1;
-  justify-self: center;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: nowrap;
-  padding: 0;
-}
-
-html[data-header-style="overlap"] .social-channels--header {
-  grid-column: 3;
-  grid-row: 1;
-  justify-self: end;
-  align-self: center;
-  background: transparent;
-  --channels-h: 36px;
-}
-
-html[data-header-style="overlap"] .lang-switcher {
-  grid-column: 4;
-  grid-row: 1;
-  position: relative;
-  top: auto;
-  right: auto;
-  transform: none;
-  align-self: center;
-}
-
-html[data-header-style="overlap"] .navbar {
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border-bottom: none;
-  padding: 0;
-}
-
-html[data-header-style="overlap"] .logo-bar {
-  background: transparent;
-  border-bottom: none;
-}
-
 @media (max-width: 880px) {
   /* B：Logo 居中 → 导航居中 → 联系左 / 语言右 两端对齐 */
   html[data-header-style="brand"] .site-header {
@@ -698,41 +611,6 @@ html[data-header-style="overlap"] .logo-bar {
     gap: 0.85rem 1rem;
     flex-wrap: wrap;
     padding: 2px 0 0;
-  }
-
-  html[data-header-style="overlap"] .site-header {
-    grid-template-columns: auto 1fr auto;
-    padding: 0 16px;
-    height: auto;
-    min-height: 52px;
-    max-height: none;
-  }
-
-  html[data-header-style="overlap"] .logo-wrapper {
-    grid-column: 1;
-    grid-row: 1;
-    height: 52px;
-  }
-
-  html[data-header-style="overlap"] .social-channels--header {
-    grid-column: 2;
-    grid-row: 1;
-    justify-self: end;
-  }
-
-  html[data-header-style="overlap"] .lang-switcher {
-    grid-column: 3;
-    grid-row: 1;
-  }
-
-  html[data-header-style="overlap"] .nav-links {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    justify-self: stretch;
-    justify-content: flex-start;
-    gap: 0.9rem;
-    flex-wrap: wrap;
-    padding: 8px 0 12px;
   }
 }
 

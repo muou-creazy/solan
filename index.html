@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-header-style="classic" data-header-sticky="on">
+<html lang="en" data-header-style="brand" data-header-sticky="on">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,8 +15,8 @@
   <link href="./style/index.css" rel="stylesheet">
 </head>
 <body>
-<!-- 顶部站点头：Logo 行 + 导航 + 语言切换（A classic / B brand / C utility / D overlap） -->
-<header class="site-header" id="navbar" data-header-style="classic" data-header-sticky="on">
+<!-- 顶部站点头：Logo 行 + 导航 + 语言切换（B brand / C utility） -->
+<header class="site-header" id="navbar" data-header-style="brand" data-header-sticky="on">
   <!-- 顶部 Logo 行：仅 Logo（联系渠道已移至导航行） -->
   <div class="logo-bar">
     <div class="container">
@@ -534,17 +534,11 @@
       <div class="header-style-switcher__group" role="group" data-i18n-aria="headerStyle.aria" aria-label="Header style">
         <span class="header-style-switcher__label" data-i18n="headerStyle.label">Header</span>
         <div class="header-style-switcher__btns">
-          <button type="button" class="header-style-switcher__btn" data-header-style-option="classic" aria-pressed="true" data-i18n-aria="headerStyle.classicAria" aria-label="Classic header">
-            <span data-i18n="headerStyle.classic">A</span>
-          </button>
-          <button type="button" class="header-style-switcher__btn" data-header-style-option="brand" aria-pressed="false" data-i18n-aria="headerStyle.brandAria" aria-label="Brand header">
+          <button type="button" class="header-style-switcher__btn" data-header-style-option="brand" aria-pressed="true" data-i18n-aria="headerStyle.brandAria" aria-label="Brand header">
             <span data-i18n="headerStyle.brand">B</span>
           </button>
           <button type="button" class="header-style-switcher__btn" data-header-style-option="utility" aria-pressed="false" data-i18n-aria="headerStyle.utilityAria" aria-label="Utility header">
             <span data-i18n="headerStyle.utility">C</span>
-          </button>
-          <button type="button" class="header-style-switcher__btn" data-header-style-option="overlap" aria-pressed="false" data-i18n-aria="headerStyle.overlapAria" aria-label="Overlap header">
-            <span data-i18n="headerStyle.overlap">D</span>
           </button>
         </div>
       </div>

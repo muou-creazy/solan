@@ -1,5 +1,5 @@
 /**
- * 顶栏样式、固定状态、Logo 大小与面板拖动：偏好写入 localStorage
+ * 顶栏样式、固定状态、Logo 大小与面板拖动：偏好写入 localStorage（样式仅 B brand / C utility）
  */
 (function () {
   /** 顶栏样式 localStorage 键 */
@@ -10,8 +10,8 @@
   var LOGO_SIZE_STORAGE_KEY = 'solan-logo-size'
   /** 面板位置 localStorage 键 */
   var PANEL_POS_STORAGE_KEY = 'solan-header-panel-pos'
-  /** 默认顶栏样式（保留当前双行布局） */
-  var DEFAULT_STYLE = 'classic'
+  /** 默认顶栏样式 */
+  var DEFAULT_STYLE = 'brand'
   /** 默认固定在顶部 */
   var DEFAULT_STICKY = 'on'
   /** 默认 Logo 宽度（px） */
@@ -20,8 +20,8 @@
   var LOGO_SIZE_MIN = 48
   /** Logo 宽度上限 */
   var LOGO_SIZE_MAX = 200
-  /** 支持的顶栏样式列表（A classic / B brand / C utility / D overlap） */
-  var SUPPORTED = ['classic', 'brand', 'utility', 'overlap']
+  /** 支持的顶栏样式列表（B brand / C utility） */
+  var SUPPORTED = ['brand', 'utility']
   /** 支持的固定状态 */
   var STICKY_SUPPORTED = ['on', 'off']
 
