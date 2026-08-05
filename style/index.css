@@ -840,6 +840,7 @@ html[data-header-style="utility"] .logo-bar {
 }
 
 /* ===== Home 首屏 Banner（全宽，非卡片） ===== */
+.section-block.home-page,
 .home-page {
   background: transparent;
   border: none;
@@ -1507,6 +1508,11 @@ footer a:hover {
 
   .section-block {
     padding: 32px 20px;
+  }
+
+  .section-block.home-page {
+    padding: 0;
+    margin: 0;
   }
 
   .container > .section-block.is-active {
