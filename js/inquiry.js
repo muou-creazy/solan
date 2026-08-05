@@ -4,7 +4,7 @@
  */
 (function (global) {
   /** 接收询盘的目标邮箱 */
-  var TO_EMAIL = 'shelly910423@gmail.com'
+  var TO_EMAIL = 'shelly@solanactive.com'
 
   /**
    * 从表单收集询盘字段
