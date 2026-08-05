@@ -645,6 +645,7 @@ html[data-header-style="overlap"] .logo-bar {
     justify-self: end;
     align-self: center;
     margin: 0;
+    text-align: right;
   }
 
   /* C：上排 Logo 左 / 联系+语言右对齐，下排导航居中 */
@@ -676,6 +677,7 @@ html[data-header-style="overlap"] .logo-bar {
     grid-row: 1;
     justify-self: end;
     align-self: center;
+    width: auto;
   }
 
   html[data-header-style="utility"] .nav-links {
@@ -764,7 +766,7 @@ html[data-header-style="overlap"] .logo-bar {
 
   html[data-header-style="brand"] .social-channels--header,
   html[data-header-style="utility"] .social-channels--header {
-    --channels-h: 28px;
+    --channels-h: 40px;
   }
 }
 
@@ -2306,7 +2308,8 @@ a.contact-simple__item:hover {
   margin-bottom: 8px;
 }
 
-.solan-inapp-guide__desc--en {
+.solan-inapp-guide__desc--en,
+.solan-inapp-guide__desc--lang {
   margin-bottom: 18px;
   color: #6b7a88;
   font-size: 0.88rem;

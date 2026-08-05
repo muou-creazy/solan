@@ -7,6 +7,55 @@
   var TO_EMAIL = 'shelly@solanactive.com'
 
   /**
+   * 读取当前站点语言
+   * @returns {string}
+   */
+  function getUiLang() {
+    if (global.SolanI18n && typeof global.SolanI18n.getStoredLang === 'function') {
+      return global.SolanI18n.getStoredLang() || 'en'
+    }
+    return 'en'
+  }
+
+  /**
+   * 从翻译表取文案
+   * @param {string} lang 语言代码
+   * @param {string} key 文案 key
+   * @returns {string}
+   */
+  function t(lang, key) {
+    var table = global.SolanTranslations || {}
+    var dict = table[lang] || {}
+    if (dict[key] != null && dict[key] !== '') {
+      return dict[key]
+    }
+    if (table.en && table.en[key] != null) {
+      return table.en[key]
+    }
+    if (table.zh && table.zh[key] != null) {
+      return table.zh[key]
+    }
+    return ''
+  }
+
+  /**
+   * 中文与当前语言并排显示
+   * @param {string} key 文案 key
+   * @returns {string}
+   */
+  function pairAlert(key) {
+    var zhText = t('zh', key)
+    var langText = t(getUiLang(), key)
+    if (!langText || langText === zhText) {
+      return zhText || langText || key
+    }
+    if (!zhText) {
+      return langText
+    }
+    return zhText + '\n\n' + langText
+  }
+
+  /**
    * 从表单收集询盘字段
    * @param {HTMLFormElement} form 表单节点
    * @returns {object|null} 校验失败时返回 null
@@ -18,7 +67,7 @@
     var message = (form.message.value || '').trim()
 
     if (!email) {
-      alert('Please enter your Email.')
+      alert(pairAlert('inquiry.emailRequired'))
       form.email.focus()
       return null
     }
@@ -98,7 +147,7 @@
       e.preventDefault()
       if (submitInquiry(form)) {
         // 不立刻 reset，避免部分浏览器取消 mailto；提示用户在邮件里点发送
-        alert('Your email app will open. Please click Send to deliver the inquiry.')
+        alert(pairAlert('inquiry.mailOpened'))
       }
     })
   }

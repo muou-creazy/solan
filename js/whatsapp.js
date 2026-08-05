@@ -143,37 +143,95 @@
   }
 
   /**
-   * 获取引导层中英双语文案
+   * 读取当前站点语言（依赖 SolanI18n，缺省英文）
+   * @returns {string}
+   */
+  function getUiLang() {
+    if (global.SolanI18n && typeof global.SolanI18n.getStoredLang === 'function') {
+      return global.SolanI18n.getStoredLang() || 'en'
+    }
+    return 'en'
+  }
+
+  /**
+   * 从翻译表取文案，缺失时回退英文再回退中文
+   * @param {string} lang 语言代码
+   * @param {string} key 文案 key
+   * @returns {string}
+   */
+  function t(lang, key) {
+    var table = global.SolanTranslations || {}
+    var dict = table[lang] || {}
+    if (dict[key] != null && dict[key] !== '') {
+      return dict[key]
+    }
+    if (table.en && table.en[key] != null) {
+      return table.en[key]
+    }
+    if (table.zh && table.zh[key] != null) {
+      return table.zh[key]
+    }
+    return ''
+  }
+
+  /**
+   * 将 {channel} 占位符替换为渠道名
+   * @param {string} text 模板文案
+   * @param {string} channelLabel 渠道显示名
+   * @returns {string}
+   */
+  function withChannel(text, channelLabel) {
+    return String(text || '').split('{channel}').join(channelLabel)
+  }
+
+  /**
+   * 中文与当前语言并排；若相同则只显示一条
+   * @param {string} zhText 中文
+   * @param {string} langText 当前语言文案
+   * @returns {string}
+   */
+  function pairZhAndLang(zhText, langText) {
+    if (!langText || langText === zhText) {
+      return zhText || langText || ''
+    }
+    if (!zhText) {
+      return langText
+    }
+    return zhText + ' / ' + langText
+  }
+
+  /**
+   * 获取引导层文案：始终含中文，并附加当前所选语言
    * @param {string} channel 渠道名
-   * @returns {{ title: string, tipZh: string, tipEn: string, copy: string, open: string, close: string, copied: string, prompt: string }}
+   * @returns {{ title: string, tipZh: string, tipLang: string, showTipLang: boolean, copy: string, open: string, close: string, copied: string, prompt: string }}
    */
   function getGuideCopy(channel) {
     var channelLabel = channel === 'facebook'
       ? 'Messenger'
       : (channel === 'linkedin' ? 'LinkedIn' : 'WhatsApp')
+    var tipKey = isWeChat() ? 'chatGuide.tipWeChat' : 'chatGuide.tipInApp'
+    var uiLang = getUiLang()
 
-    var tipZh = isWeChat()
-      ? '当前在微信内打开，无法直接唤起 ' + channelLabel + '。请点击右上角 ···，选择“在浏览器中打开”，再点击联系按钮。'
-      : '当前在 App 内置浏览器中打开，可能无法直接唤起 ' + channelLabel + '。请用系统浏览器（Safari / Chrome）打开本站后再试。'
-
-    var tipEn = isWeChat()
-      ? 'Opened in WeChat. ' + channelLabel + ' cannot be launched directly. Tap ··· at the top right, choose “Open in Browser”, then try the contact button again.'
-      : 'Opened in an in-app browser. ' + channelLabel + ' may be blocked. Please open this site in Safari / Chrome, then try again.'
+    var tipZh = withChannel(t('zh', tipKey), channelLabel)
+    var tipLang = withChannel(t(uiLang, tipKey), channelLabel)
+    var titleZh = withChannel(t('zh', 'chatGuide.title'), channelLabel)
+    var titleLang = withChannel(t(uiLang, 'chatGuide.title'), channelLabel)
 
     return {
-      title: '无法直接打开 ' + channelLabel + ' / Unable to open ' + channelLabel,
+      title: pairZhAndLang(titleZh, titleLang),
       tipZh: tipZh,
-      tipEn: tipEn,
-      copy: '复制聊天链接 / Copy chat link',
-      open: '仍要尝试打开 / Try opening anyway',
-      close: '关闭 / Close',
-      copied: '已复制 / Copied',
-      prompt: '请手动复制链接 / Please copy the link manually:'
+      tipLang: tipLang,
+      showTipLang: !!(tipLang && tipLang !== tipZh),
+      copy: pairZhAndLang(t('zh', 'chatGuide.copy'), t(uiLang, 'chatGuide.copy')),
+      open: pairZhAndLang(t('zh', 'chatGuide.open'), t(uiLang, 'chatGuide.open')),
+      close: pairZhAndLang(t('zh', 'chatGuide.close'), t(uiLang, 'chatGuide.close')),
+      copied: pairZhAndLang(t('zh', 'chatGuide.copied'), t(uiLang, 'chatGuide.copied')),
+      prompt: pairZhAndLang(t('zh', 'chatGuide.prompt'), t(uiLang, 'chatGuide.prompt'))
     }
   }
 
   /**
-   * 展示内置浏览器引导层：请用系统浏览器打开（中英双语）
+   * 展示内置浏览器引导层：中文 + 当前所选语言
    * @param {string} url 可复制的目标链接
    * @param {string} channel 渠道名
    */
@@ -184,6 +242,9 @@
     }
 
     var copy = getGuideCopy(channel)
+    var tipLangHtml = copy.showTipLang
+      ? '  <p class="solan-inapp-guide__desc solan-inapp-guide__desc--lang">' + copy.tipLang + '</p>'
+      : ''
 
     var mask = document.createElement('div')
     mask.id = 'solan-inapp-guide'
@@ -192,7 +253,7 @@
       '<div class="solan-inapp-guide__panel" role="dialog" aria-modal="true" aria-labelledby="solan-inapp-guide-title">',
       '  <p class="solan-inapp-guide__title" id="solan-inapp-guide-title">' + copy.title + '</p>',
       '  <p class="solan-inapp-guide__desc">' + copy.tipZh + '</p>',
-      '  <p class="solan-inapp-guide__desc solan-inapp-guide__desc--en">' + copy.tipEn + '</p>',
+      tipLangHtml,
       '  <div class="solan-inapp-guide__actions">',
       // '    <button type="button" class="solan-inapp-guide__btn solan-inapp-guide__btn--primary" data-action="copy">' + copy.copy + '</button>',
       // '    <button type="button" class="solan-inapp-guide__btn" data-action="open">' + copy.open + '</button>',
