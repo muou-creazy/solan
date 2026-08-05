@@ -53,7 +53,8 @@ main {
 
 /* Logo 行：浅底，左 Logo / 右社交渠道，限制行高（浅底便于 logo 文字辨认） */
 .logo-bar {
-  background: #141a22;
+  /* background: #141a22; */
+  background: #F7F9FC;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
@@ -69,17 +70,22 @@ main {
 }
 
 .logo-wrapper {
+  position: relative;
+  top: 22px;
   display: flex;
   align-items: center;
   gap: 10px;
   text-decoration: none;
   color: inherit;
   min-width: 0;
+  z-index: 100;
 }
 
 .logo-image {
-  width: 70px;
-  height: 50px;
+  /* width: 70px; */
+  /* height: 50px; */
+  width: 120px;
+  height: auto;
   object-fit: contain;
   border-radius: 10px;
   flex-shrink: 0;
@@ -118,7 +124,8 @@ main {
   border-radius: 6px;
   overflow: hidden;
   flex-shrink: 0;
-  background: #000;
+  /* background: #000; */
+  background: #F7F9FC;
   box-sizing: border-box;
   padding: 2px 6px;
 }
@@ -1471,7 +1478,8 @@ a.contact-simple__item:hover {
   aspect-ratio: 376 / 125;
   border-radius: 18px;
   overflow: hidden;
-  background: #000;
+  /* background: #000; */
+  background: #F7F9FC;
 }
 
 .social-channels__img {

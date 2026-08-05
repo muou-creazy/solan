@@ -7,10 +7,11 @@
   /** 默认语言（与页面当前英文文案一致） */
   var DEFAULT_LANG = 'en'
   /** 支持的语言列表（不含中文） */
-  var SUPPORTED = ['en', 'ko', 'ja', 'fr', 'de']
+  var SUPPORTED = ['en', 'es', 'ko', 'ja', 'fr', 'de']
   /** 按钮上显示的短标签 */
   var LANG_LABELS = {
     en: 'EN',
+    es: 'ES',
     ko: '한국어',
     ja: '日本語',
     fr: 'FR',
@@ -19,6 +20,7 @@
   /** html lang 属性映射 */
   var HTML_LANG = {
     en: 'en',
+    es: 'es',
     ko: 'ko',
     ja: 'ja',
     fr: 'fr',
