@@ -39,9 +39,9 @@ main {
   padding: 0 24px;
 }
 
-/* Logo 尺寸由调试面板 --logo-size 控制，默认 120px */
+/* Logo 尺寸由调试面板 --logo-size 控制，默认 100px */
 html {
-  --logo-size: 120px;
+  --logo-size: 100px;
 }
 
 /* ===== 站点顶栏：Logo 行 + 导航行（classic 基线；brand / utility / overlap 见下方覆盖） ===== */

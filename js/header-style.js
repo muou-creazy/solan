@@ -15,7 +15,7 @@
   /** 默认固定在顶部 */
   var DEFAULT_STICKY = 'on'
   /** 默认 Logo 宽度（px） */
-  var DEFAULT_LOGO_SIZE = 120
+  var DEFAULT_LOGO_SIZE = 100
   /** Logo 宽度下限 */
   var LOGO_SIZE_MIN = 48
   /** Logo 宽度上限 */
