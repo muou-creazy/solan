@@ -1,15 +1,25 @@
 /**
- * 顶栏样式与固定状态切换：偏好写入 localStorage
+ * 顶栏样式、固定状态、Logo 大小与面板拖动：偏好写入 localStorage
  */
 (function () {
   /** 顶栏样式 localStorage 键 */
   var STORAGE_KEY = 'solan-header-style'
   /** 顶栏是否固定 localStorage 键 */
   var STICKY_STORAGE_KEY = 'solan-header-sticky'
+  /** Logo 大小 localStorage 键 */
+  var LOGO_SIZE_STORAGE_KEY = 'solan-logo-size'
+  /** 面板位置 localStorage 键 */
+  var PANEL_POS_STORAGE_KEY = 'solan-header-panel-pos'
   /** 默认顶栏样式（保留当前双行布局） */
   var DEFAULT_STYLE = 'classic'
   /** 默认固定在顶部 */
   var DEFAULT_STICKY = 'on'
+  /** 默认 Logo 宽度（px） */
+  var DEFAULT_LOGO_SIZE = 120
+  /** Logo 宽度下限 */
+  var LOGO_SIZE_MIN = 48
+  /** Logo 宽度上限 */
+  var LOGO_SIZE_MAX = 200
   /** 支持的顶栏样式列表（A classic / B brand / C utility / D overlap） */
   var SUPPORTED = ['classic', 'brand', 'utility', 'overlap']
   /** 支持的固定状态 */
@@ -48,6 +58,58 @@
   }
 
   /**
+   * 读取已保存的 Logo 大小
+   * @returns {number}
+   */
+  function getStoredLogoSize() {
+    try {
+      var saved = parseInt(localStorage.getItem(LOGO_SIZE_STORAGE_KEY), 10)
+      if (!isNaN(saved)) {
+        return clampLogoSize(saved)
+      }
+    } catch (e) {
+      /* localStorage 不可用时忽略 */
+    }
+    return DEFAULT_LOGO_SIZE
+  }
+
+  /**
+   * 读取已保存的面板位置
+   * @returns {{ left: number, top: number }|null}
+   */
+  function getStoredPanelPos() {
+    try {
+      var raw = localStorage.getItem(PANEL_POS_STORAGE_KEY)
+      if (!raw) {
+        return null
+      }
+      var data = JSON.parse(raw)
+      if (data && typeof data.left === 'number' && typeof data.top === 'number') {
+        return data
+      }
+    } catch (e) {
+      /* 忽略解析失败 */
+    }
+    return null
+  }
+
+  /**
+   * 将 Logo 大小限制在合法区间
+   * @param {number} size 像素宽度
+   * @returns {number}
+   */
+  function clampLogoSize(size) {
+    var n = Math.round(Number(size) || DEFAULT_LOGO_SIZE)
+    if (n < LOGO_SIZE_MIN) {
+      return LOGO_SIZE_MIN
+    }
+    if (n > LOGO_SIZE_MAX) {
+      return LOGO_SIZE_MAX
+    }
+    return n
+  }
+
+  /**
    * 将顶栏样式偏好写入 localStorage
    * @param {string} style 样式代码
    */
@@ -66,6 +128,30 @@
   function saveSticky(sticky) {
     try {
       localStorage.setItem(STICKY_STORAGE_KEY, sticky)
+    } catch (e) {
+      /* 忽略写入失败 */
+    }
+  }
+
+  /**
+   * 将 Logo 大小写入 localStorage
+   * @param {number} size 像素宽度
+   */
+  function saveLogoSize(size) {
+    try {
+      localStorage.setItem(LOGO_SIZE_STORAGE_KEY, String(clampLogoSize(size)))
+    } catch (e) {
+      /* 忽略写入失败 */
+    }
+  }
+
+  /**
+   * 将面板位置写入 localStorage
+   * @param {{ left: number, top: number }} pos 位置
+   */
+  function savePanelPos(pos) {
+    try {
+      localStorage.setItem(PANEL_POS_STORAGE_KEY, JSON.stringify(pos))
     } catch (e) {
       /* 忽略写入失败 */
     }
@@ -104,6 +190,22 @@
   }
 
   /**
+   * 更新 Logo 滑块 UI
+   * @param {number} size 像素宽度
+   */
+  function updateLogoSizeUI(size) {
+    var input = document.getElementById('header-logo-size')
+    var valueEl = document.getElementById('header-logo-size-value')
+    if (input) {
+      input.value = String(size)
+      input.setAttribute('aria-valuenow', String(size))
+    }
+    if (valueEl) {
+      valueEl.textContent = String(size)
+    }
+  }
+
+  /**
    * 将指定样式应用到 html 与顶栏节点
    * @param {string} style 样式代码
    */
@@ -135,6 +237,16 @@
   }
 
   /**
+   * 应用 Logo 宽度到 CSS 变量
+   * @param {number} size 像素宽度
+   */
+  function applyLogoSize(size) {
+    var px = clampLogoSize(size)
+    document.documentElement.style.setProperty('--logo-size', px + 'px')
+    updateLogoSizeUI(px)
+  }
+
+  /**
    * 切换并持久化顶栏样式
    * @param {string} style 样式代码
    */
@@ -155,7 +267,136 @@
   }
 
   /**
-   * 绑定样式与固定状态切换点击事件
+   * 设置并持久化 Logo 大小
+   * @param {number} size 像素宽度
+   */
+  function setLogoSize(size) {
+    var px = clampLogoSize(size)
+    saveLogoSize(px)
+    applyLogoSize(px)
+  }
+
+  /**
+   * 将面板限制在视口内
+   * @param {HTMLElement} panel 面板节点
+   * @param {number} left 左边距
+   * @param {number} top 上边距
+   * @returns {{ left: number, top: number }}
+   */
+  function clampPanelPos(panel, left, top) {
+    var margin = 8
+    var maxLeft = Math.max(margin, window.innerWidth - panel.offsetWidth - margin)
+    var maxTop = Math.max(margin, window.innerHeight - panel.offsetHeight - margin)
+    return {
+      left: Math.min(Math.max(margin, left), maxLeft),
+      top: Math.min(Math.max(margin, top), maxTop)
+    }
+  }
+
+  /**
+   * 应用面板位置（改为 left/top，取消 bottom 锚定）
+   * @param {HTMLElement} panel 面板节点
+   * @param {{ left: number, top: number }} pos 位置
+   */
+  function applyPanelPos(panel, pos) {
+    var safe = clampPanelPos(panel, pos.left, pos.top)
+    panel.style.left = safe.left + 'px'
+    panel.style.top = safe.top + 'px'
+    panel.style.right = 'auto'
+    panel.style.bottom = 'auto'
+    panel.classList.add('is-dragged')
+  }
+
+  /**
+   * 绑定面板拖动（仅拖动手柄触发，避免误触滑块/按钮）
+   */
+  function bindPanelDrag() {
+    var panel = document.getElementById('header-style-switcher')
+    var handle = document.getElementById('header-style-drag')
+    if (!panel || !handle) {
+      return
+    }
+
+    var dragging = false
+    var startX = 0
+    var startY = 0
+    var originLeft = 0
+    var originTop = 0
+    var activePointerId = null
+
+    /**
+     * 开始拖动
+     * @param {PointerEvent} e 指针事件
+     */
+    function onPointerDown(e) {
+      if (e.button != null && e.button !== 0) {
+        return
+      }
+      dragging = true
+      activePointerId = e.pointerId
+      var rect = panel.getBoundingClientRect()
+      originLeft = rect.left
+      originTop = rect.top
+      startX = e.clientX
+      startY = e.clientY
+      panel.classList.add('is-dragging')
+      try {
+        handle.setPointerCapture(e.pointerId)
+      } catch (err) {
+        /* 部分环境不支持 capture */
+      }
+      e.preventDefault()
+    }
+
+    /**
+     * 拖动中更新位置
+     * @param {PointerEvent} e 指针事件
+     */
+    function onPointerMove(e) {
+      if (!dragging || (activePointerId != null && e.pointerId !== activePointerId)) {
+        return
+      }
+      var next = clampPanelPos(
+        panel,
+        originLeft + (e.clientX - startX),
+        originTop + (e.clientY - startY)
+      )
+      applyPanelPos(panel, next)
+    }
+
+    /**
+     * 结束拖动并持久化
+     * @param {PointerEvent} e 指针事件
+     */
+    function onPointerUp(e) {
+      if (!dragging || (activePointerId != null && e.pointerId !== activePointerId)) {
+        return
+      }
+      dragging = false
+      activePointerId = null
+      panel.classList.remove('is-dragging')
+      var rect = panel.getBoundingClientRect()
+      var pos = clampPanelPos(panel, rect.left, rect.top)
+      applyPanelPos(panel, pos)
+      savePanelPos(pos)
+    }
+
+    handle.addEventListener('pointerdown', onPointerDown)
+    handle.addEventListener('pointermove', onPointerMove)
+    handle.addEventListener('pointerup', onPointerUp)
+    handle.addEventListener('pointercancel', onPointerUp)
+
+    window.addEventListener('resize', function () {
+      if (!panel.classList.contains('is-dragged')) {
+        return
+      }
+      var rect = panel.getBoundingClientRect()
+      applyPanelPos(panel, { left: rect.left, top: rect.top })
+    })
+  }
+
+  /**
+   * 绑定样式、固定状态与 Logo 大小控件
    */
   function bindSwitcher() {
     var root = document.getElementById('header-style-switcher')
@@ -172,15 +413,33 @@
         setSticky(btn.getAttribute('data-header-sticky-option'))
       })
     })
+
+    var logoInput = document.getElementById('header-logo-size')
+    if (logoInput) {
+      logoInput.addEventListener('input', function () {
+        applyLogoSize(logoInput.value)
+      })
+      logoInput.addEventListener('change', function () {
+        setLogoSize(logoInput.value)
+      })
+    }
   }
 
   /**
-   * 初始化：应用已存样式/固定状态并绑定切换 UI
+   * 初始化：应用已存偏好并绑定交互
    */
   function init() {
     applyStyle(getStoredStyle())
     applySticky(getStoredSticky())
+    applyLogoSize(getStoredLogoSize())
     bindSwitcher()
+    bindPanelDrag()
+
+    var panel = document.getElementById('header-style-switcher')
+    var savedPos = getStoredPanelPos()
+    if (panel && savedPos) {
+      applyPanelPos(panel, savedPos)
+    }
   }
 
   window.SolanHeaderStyle = {
@@ -190,6 +449,9 @@
     setSticky: setSticky,
     applySticky: applySticky,
     getStoredSticky: getStoredSticky,
+    setLogoSize: setLogoSize,
+    applyLogoSize: applyLogoSize,
+    getStoredLogoSize: getStoredLogoSize,
     init: init
   }
 
