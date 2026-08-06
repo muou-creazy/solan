@@ -1714,7 +1714,7 @@ footer a:hover {
 
 /* 证书：2016×2048 ≈ 0.98，按宽度推导高度，加载前后占位一致 */
 .about-gallery__item--certificates {
-  max-width: 400px;
+  /* max-width: 400px; */
   justify-self: center;
 }
 
@@ -2039,7 +2039,7 @@ a.contact-simple__item:hover {
 
   /* 移动端单列：仍按图片比例占位，证书限制最大宽度居中 */
   .about-gallery__item--certificates {
-    max-width: 300px;
+    /* max-width: 300px; */
     justify-self: center;
   }
 
