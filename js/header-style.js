@@ -10,6 +10,8 @@
   var LOGO_SIZE_STORAGE_KEY = 'solan-logo-size'
   /** 面板位置 localStorage 键 */
   var PANEL_POS_STORAGE_KEY = 'solan-header-panel-pos'
+  /** B 方案视觉预设 localStorage 键 */
+  var PRESET_STORAGE_KEY = 'solan-brand-preset'
   /** 默认顶栏样式 */
   var DEFAULT_STYLE = 'brand'
   /** 默认固定在顶部 */
@@ -20,10 +22,14 @@
   var LOGO_SIZE_MIN = 48
   /** Logo 宽度上限 */
   var LOGO_SIZE_MAX = 200
+  /** 默认 B 方案预设 */
+  var DEFAULT_PRESET = 'p0'
   /** 支持的顶栏样式列表（B brand / C utility） */
   var SUPPORTED = ['brand', 'utility']
   /** 支持的固定状态 */
   var STICKY_SUPPORTED = ['on', 'off']
+  /** 支持的 B 方案预设（P0 现状 / P1 细线 / P2 Slogan / P3 收紧） */
+  var PRESET_SUPPORTED = ['p0', 'p1', 'p2', 'p3']
 
   /**
    * 读取已保存的顶栏样式，非法值回退默认
@@ -55,6 +61,26 @@
       /* localStorage 不可用时忽略 */
     }
     return DEFAULT_STICKY
+  }
+
+  /**
+   * 读取已保存的 B 方案预设
+   * @returns {string}
+   */
+  function getStoredPreset() {
+    try {
+      var saved = localStorage.getItem(PRESET_STORAGE_KEY)
+      var legacyMap = { p1: 'p0', p2: 'p1', p3: 'p2', p4: 'p3' }
+      if (saved && legacyMap[saved]) {
+        saved = legacyMap[saved]
+      }
+      if (saved && PRESET_SUPPORTED.indexOf(saved) !== -1) {
+        return saved
+      }
+    } catch (e) {
+      /* localStorage 不可用时忽略 */
+    }
+    return DEFAULT_PRESET
   }
 
   /**
@@ -134,6 +160,18 @@
   }
 
   /**
+   * 将 B 方案预设写入 localStorage
+   * @param {string} preset 预设代码
+   */
+  function savePreset(preset) {
+    try {
+      localStorage.setItem(PRESET_STORAGE_KEY, preset)
+    } catch (e) {
+      /* 忽略写入失败 */
+    }
+  }
+
+  /**
    * 将 Logo 大小写入 localStorage
    * @param {number} size 像素宽度
    */
@@ -190,6 +228,22 @@
   }
 
   /**
+   * 更新 B 方案预设按钮选中态
+   * @param {string} preset 预设代码
+   */
+  function updatePresetUI(preset) {
+    var root = document.getElementById('header-brand-preset-switcher')
+    if (!root) {
+      return
+    }
+    root.querySelectorAll('[data-brand-preset-option]').forEach(function (btn) {
+      var isActive = btn.getAttribute('data-brand-preset-option') === preset
+      btn.setAttribute('aria-pressed', isActive ? 'true' : 'false')
+      btn.classList.toggle('is-active', isActive)
+    })
+  }
+
+  /**
    * 更新 Logo 滑块 UI
    * @param {number} size 像素宽度
    */
@@ -237,6 +291,20 @@
   }
 
   /**
+   * 应用 B 方案视觉预设到 html 与顶栏
+   * @param {string} preset 预设代码
+   */
+  function applyPreset(preset) {
+    var code = PRESET_SUPPORTED.indexOf(preset) !== -1 ? preset : DEFAULT_PRESET
+    document.documentElement.setAttribute('data-brand-preset', code)
+    var header = document.getElementById('navbar')
+    if (header) {
+      header.setAttribute('data-brand-preset', code)
+    }
+    updatePresetUI(code)
+  }
+
+  /**
    * 应用 Logo 宽度到 CSS 变量
    * @param {number} size 像素宽度
    */
@@ -264,6 +332,16 @@
     var code = STICKY_SUPPORTED.indexOf(sticky) !== -1 ? sticky : DEFAULT_STICKY
     saveSticky(code)
     applySticky(code)
+  }
+
+  /**
+   * 切换并持久化 B 方案预设
+   * @param {string} preset 预设代码
+   */
+  function setPreset(preset) {
+    var code = PRESET_SUPPORTED.indexOf(preset) !== -1 ? preset : DEFAULT_PRESET
+    savePreset(code)
+    applyPreset(code)
   }
 
   /**
@@ -413,6 +491,11 @@
         setSticky(btn.getAttribute('data-header-sticky-option'))
       })
     })
+    root.querySelectorAll('[data-brand-preset-option]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        setPreset(btn.getAttribute('data-brand-preset-option'))
+      })
+    })
 
     var logoInput = document.getElementById('header-logo-size')
     if (logoInput) {
@@ -431,6 +514,7 @@
   function init() {
     applyStyle(getStoredStyle())
     applySticky(getStoredSticky())
+    applyPreset(getStoredPreset())
     applyLogoSize(getStoredLogoSize())
     bindSwitcher()
     bindPanelDrag()
@@ -449,6 +533,9 @@
     setSticky: setSticky,
     applySticky: applySticky,
     getStoredSticky: getStoredSticky,
+    setPreset: setPreset,
+    applyPreset: applyPreset,
+    getStoredPreset: getStoredPreset,
     setLogoSize: setLogoSize,
     applyLogoSize: applyLogoSize,
     getStoredLogoSize: getStoredLogoSize,

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-header-style="brand" data-header-sticky="on">
+<html lang="en" data-header-style="brand" data-header-sticky="on" data-brand-preset="p0">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +16,7 @@
 </head>
 <body>
 <!-- 顶部站点头：Logo 行 + 导航 + 语言切换（B brand / C utility） -->
-<header class="site-header" id="navbar" data-header-style="brand" data-header-sticky="on">
+<header class="site-header" id="navbar" data-header-style="brand" data-header-sticky="on" data-brand-preset="p0">
   <!-- 顶部 Logo 行：仅 Logo（联系渠道已移至导航行） -->
   <div class="logo-bar">
     <div class="container">
@@ -24,6 +24,8 @@
         <img class="logo-image" src="./img/logo.png" alt="Solan Logo" width="36" height="36">
         <!-- <span class="logo-text">Solan</span> -->
       </a>
+      <!-- B 方案 P2：Logo 与菜单之间的品牌 Slogan -->
+      <p class="header-brand-slogan" data-i18n="header.slogan">Trusted One-Stop Supplier</p>
     </div>
   </div>
   <!-- 导航行：菜单居中，右侧联系渠道 + 语言切换 -->
@@ -553,6 +555,23 @@
             <span data-i18n="headerSticky.off">Off</span>
           </button>
         </div>
+      </div>
+    </div>
+    <div class="header-style-switcher__group" id="header-brand-preset-switcher" role="group" data-i18n-aria="headerPreset.aria" aria-label="Brand preset">
+      <span class="header-style-switcher__label" data-i18n="headerPreset.label">Preset</span>
+      <div class="header-style-switcher__btns">
+        <button type="button" class="header-style-switcher__btn" data-brand-preset-option="p0" aria-pressed="true" data-i18n-aria="headerPreset.p0Aria" aria-label="Preset 0">
+          <span data-i18n="headerPreset.p0">P0</span>
+        </button>
+        <button type="button" class="header-style-switcher__btn" data-brand-preset-option="p1" aria-pressed="false" data-i18n-aria="headerPreset.p1Aria" aria-label="Preset 1">
+          <span data-i18n="headerPreset.p1">P1</span>
+        </button>
+        <button type="button" class="header-style-switcher__btn" data-brand-preset-option="p2" aria-pressed="false" data-i18n-aria="headerPreset.p2Aria" aria-label="Preset 2">
+          <span data-i18n="headerPreset.p2">P2</span>
+        </button>
+        <button type="button" class="header-style-switcher__btn" data-brand-preset-option="p3" aria-pressed="false" data-i18n-aria="headerPreset.p3Aria" aria-label="Preset 3">
+          <span data-i18n="headerPreset.p3">P3</span>
+        </button>
       </div>
     </div>
   </div>
