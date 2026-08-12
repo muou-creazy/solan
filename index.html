@@ -8,9 +8,9 @@
   <link rel="icon" href="./favicon.ico" type="image/x-icon">
   <!-- SEO 关键词：sports protective gear, activewear, outdoor cycling, Amazon supply -->
   <meta name="description" content="Solan - 专业运动护具、健身配件、户外骑行、功能服装供应链整合，12年外贸经验，支持OEM/ODM、DDP、亚马逊FBA供货。" data-i18n-content="meta.description">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet"> -->
+  <link rel="preload" as="image" href="./img/home-banner.jpg" fetchpriority="high">
+  <link rel="preload" as="image" href="./img/logo.png" fetchpriority="high">
   <link href="./style/css2.css" rel="stylesheet">
   <link href="./style/index.css" rel="stylesheet">
 </head>
@@ -20,7 +20,7 @@
   <div class="logo-bar">
     <div class="container">
       <a href="#home" class="logo-wrapper">
-        <img class="logo-image" src="./img/logo.png" alt="Solan Logo" width="100" height="100">
+        <img class="logo-image" src="./img/logo.png" alt="Solan Logo" width="100" height="71" decoding="async" fetchpriority="high">
       </a>
     </div>
   </div>
@@ -94,7 +94,7 @@
 
   <!-- 工厂图：顶部横向铺满，仅保留图片 -->
   <figure class="about-hero-media">
-    <img src="./img/about-factory.png" alt="Solan factory production workshop" width="1000" height="524" loading="lazy" data-i18n-alt="about.altFactory">
+    <img data-src="./img/about-factory.jpg" alt="Solan factory production workshop" width="1000" height="524" loading="lazy" data-i18n-alt="about.altFactory">
   </figure>
 
   <!-- 图片下方文案 -->
@@ -111,14 +111,14 @@
     <!-- 证书图：近方形 2016×2048，高度占满、宽度按比例自适应 -->
     <figure class="media-frame about-gallery__item about-gallery__item--certificates">
       <div class="about-gallery__media">
-        <img src="./img/about-certificates.png" alt="Company certificates and qualifications" width="2016" height="2048" loading="lazy" data-i18n-alt="about.altCertificates">
+        <img data-src="./img/about-certificates.jpg" alt="Company certificates and qualifications" width="2016" height="2048" loading="lazy" data-i18n-alt="about.altCertificates">
       </div>
       <figcaption data-i18n="about.certificates">Certificates &amp; Qualifications</figcaption>
     </figure>
     <!-- 评价图：横图 1424×800，宽度占满、高度按比例自适应 -->
     <figure class="media-frame about-gallery__item about-gallery__item--reviews">
       <div class="about-gallery__media">
-        <img src="./img/about-reviews.png" alt="Customer reviews and feedback" width="1424" height="800" loading="lazy" data-i18n-alt="about.altReviews">
+        <img data-src="./img/about-reviews.jpg" alt="Customer reviews and feedback" width="1424" height="800" loading="lazy" data-i18n-alt="about.altReviews">
       </div>
       <figcaption data-i18n="about.reviews">Verified Customer Reviews</figcaption>
     </figure>
@@ -131,23 +131,23 @@
   <h2 class="section-title" data-i18n="products.title">Our Products | Solan Sports &amp; Outdoor Wholesale</h2>
   <div class="grid-3 product-grid">
     <article class="card product-card">
-      <div class="card-media"><img src="./img/product-protective-gear.png" alt="Sports protective gear" loading="lazy" data-i18n-alt="products.altProtective"></div>
+      <div class="card-media"><img data-src="./img/product-protective-gear.jpg" alt="Sports protective gear" loading="lazy" data-i18n-alt="products.altProtective"></div>
       <h4 data-i18n="products.protective">Sports Protective Gear</h4>
     </article>
     <article class="card product-card">
-      <div class="card-media"><img src="./img/product-fitness-accessories.png" alt="Fitness and sports accessories" loading="lazy" data-i18n-alt="products.altFitness"></div>
+      <div class="card-media"><img data-src="./img/product-fitness-accessories.jpg" alt="Fitness and sports accessories" loading="lazy" data-i18n-alt="products.altFitness"></div>
       <h4 data-i18n="products.fitness">Fitness &amp; Sports Accessories</h4>
     </article>
     <article class="card product-card">
-      <div class="card-media"><img src="./img/product-outdoor-cycling.png" alt="Outdoor and cycling series" loading="lazy" data-i18n-alt="products.altOutdoor"></div>
+      <div class="card-media"><img data-src="./img/product-outdoor-cycling.jpg" alt="Outdoor and cycling series" loading="lazy" data-i18n-alt="products.altOutdoor"></div>
       <h4 data-i18n="products.outdoor">Outdoor &amp; Cycling Series</h4>
     </article>
     <article class="card product-card">
-      <div class="card-media"><img src="./img/product-active-apparel.png" alt="Functional apparel and reflective safety wear" loading="lazy" data-i18n-alt="products.altApparel"></div>
+      <div class="card-media"><img data-src="./img/product-active-apparel.jpg" alt="Functional apparel and reflective safety wear" loading="lazy" data-i18n-alt="products.altApparel"></div>
       <h4 data-i18n="products.apparel">Functional Apparel &amp; Reflective Safety Wear</h4>
     </article>
     <article class="card product-card">
-      <div class="card-media"><img src="./img/product-mixed-procurement.png" alt="One-stop mixed procurement" loading="lazy" data-i18n-alt="products.altMixed"></div>
+      <div class="card-media"><img data-src="./img/product-mixed-procurement.jpg" alt="One-stop mixed procurement" loading="lazy" data-i18n-alt="products.altMixed"></div>
       <h4 data-i18n="products.mixed">One-Stop Mixed Procurement</h4>
     </article>
   </div>
@@ -160,21 +160,21 @@
 
   <div class="service-feature-grid">
     <article class="service-feature">
-      <div class="service-feature__media"><img src="./img/service-qc.png" alt="Quality inspection and QC" loading="lazy" data-i18n-alt="services.altQc"></div>
+      <div class="service-feature__media"><img data-src="./img/service-qc.jpg" alt="Quality inspection and QC" loading="lazy" data-i18n-alt="services.altQc"></div>
       <div class="service-feature__body">
         <h4 data-i18n="services.qcTitle">Strict Factory Selection &amp; Unified QC</h4>
         <p data-i18n="services.qcBody">Qualified cooperative factories with export qualifications. Unified standards, fabric inspection, semi-finished supervision, finished sampling. Meet EU, US, Amazon standards.</p>
       </div>
     </article>
     <article class="service-feature">
-      <div class="service-feature__media"><img src="./img/service-oem.png" alt="OEM and ODM customization" loading="lazy" data-i18n-alt="services.altOem"></div>
+      <div class="service-feature__media"><img data-src="./img/service-oem.jpg" alt="OEM and ODM customization" loading="lazy" data-i18n-alt="services.altOem"></div>
       <div class="service-feature__body">
         <h4 data-i18n="services.oemTitle">OEM / ODM Customization</h4>
         <p data-i18n="services.oemBody">Custom fabric, size, color, LOGO, silicone anti-slip, sublimation pattern, private label. Free proofing, fast sample, flexible MOQ.</p>
       </div>
     </article>
     <article class="service-feature">
-      <div class="service-feature__media"><img src="./img/service-amazon-fba.png" alt="Amazon FBA specialized supply" loading="lazy" data-i18n-alt="services.altAmazon"></div>
+      <div class="service-feature__media"><img data-src="./img/service-amazon-fba.jpg" alt="Amazon FBA specialized supply" loading="lazy" data-i18n-alt="services.altAmazon"></div>
       <div class="service-feature__body">
         <h4 data-i18n="services.amazonTitle">Amazon FBA Specialized Supply</h4>
         <p data-i18n="services.amazonBody">Years of experience serving Amazon sellers. Standard FBA packaging, label pasting, batch stocking to reduce platform risks.</p>
@@ -208,7 +208,7 @@
     </div>
     <aside class="faq-side">
       <figure class="media-frame media-frame--faq">
-        <img src="./img/faq-support.png" alt="Sales team and customer support" loading="lazy" data-i18n-alt="faq.altSupport">
+        <img data-src="./img/faq-support.jpg" alt="Sales team and customer support" loading="lazy" data-i18n-alt="faq.altSupport">
         <figcaption data-i18n="faq.sideCaption">Professional sales &amp; after-sales support</figcaption>
       </figure>
     </aside>
@@ -283,7 +283,7 @@
     >
       <img
         class="contact-simple__map-img"
-        src="./img/amapposition.png"
+        data-src="./img/amapposition.jpg"
         alt="HQ location map - Tatan International Trade City Building 4, Shijiazhuang"
         width="1589"
         height="820"
@@ -471,28 +471,28 @@
   </a>
 </div>
 
-<script src="./js/translations.js"></script>
-<script src="./js/i18n.js"></script>
-<script src="./js/inquiry.js"></script>
-<script src="./js/pages.js"></script>
-<script src="./js/whatsapp.js"></script>
+<script defer src="./js/translations.js"></script>
+<script defer src="./js/i18n.js"></script>
+<script defer src="./js/inquiry.js"></script>
+<script defer src="./js/pages.js"></script>
+<script defer src="./js/whatsapp.js"></script>
 <script>
-  (function() {
+  document.addEventListener('DOMContentLoaded', function () {
     // 绑定询盘表单：通过 mailto 发到指定邮箱
     if (window.SolanInquiry) {
       window.SolanInquiry.bindInquiryForm('inquiry-form')
     }
 
-    var navbar = document.getElementById('navbar');
+    var navbar = document.getElementById('navbar')
     // 滚动时为顶栏增加阴影
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', function () {
       if (window.scrollY > 20) {
-        navbar.classList.add('scrolled');
+        navbar.classList.add('scrolled')
       } else {
-        navbar.classList.remove('scrolled');
+        navbar.classList.remove('scrolled')
       }
-    });
-  })();
+    }, { passive: true })
+  })
 </script>
 </body>
 </html>

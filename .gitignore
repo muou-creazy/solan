@@ -24,3 +24,9 @@ dist.rar
 
 package-lock.json
 yarn.lock
+
+# 本地图片备份与临时脚本（不部署）
+# img/_backup-original/
+/_*.ps1
+/_*.js
+

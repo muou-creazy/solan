@@ -1,5 +1,6 @@
 /**
  * 单页模块路由：根据 hash 只显示当前模块，隐藏其余模块
+ * 并对模块内图片做按需加载，避免首屏拉取全部资源
  */
 (function () {
   /** 允许切换的模块 id 列表 */
@@ -17,6 +18,24 @@
   }
 
   /**
+   * 激活模块内延迟图片：把 data-src 写入 src
+   * @param {HTMLElement} section 模块节点
+   */
+  function hydrateSectionImages(section) {
+    if (!section) {
+      return
+    }
+    section.querySelectorAll('img[data-src]').forEach(function (img) {
+      var src = img.getAttribute('data-src')
+      if (!src) {
+        return
+      }
+      img.setAttribute('src', src)
+      img.removeAttribute('data-src')
+    })
+  }
+
+  /**
    * 切换到指定模块：仅显示该模块，更新导航高亮与地址栏
    * @param {string} pageId 模块 id
    * @param {boolean} [updateHash=true] 是否同步写入 hash
@@ -27,6 +46,9 @@
     document.querySelectorAll('.section-block').forEach(function (section) {
       var isActive = section.id === targetId
       section.classList.toggle('is-active', isActive)
+      if (isActive) {
+        hydrateSectionImages(section)
+      }
     })
 
     document.querySelectorAll('.nav-links a').forEach(function (link) {

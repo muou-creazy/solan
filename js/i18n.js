@@ -26,6 +26,10 @@
     fr: 'fr',
     de: 'de'
   }
+  /** 按需加载的额外翻译脚本路径 */
+  var EXTRA_SCRIPT = './js/translations-extra.js'
+  /** 额外翻译脚本加载 Promise（仅加载一次） */
+  var extraLoadPromise = null
 
   /**
    * 读取当前应使用的语言代码
@@ -69,6 +73,63 @@
     }
     var fallback = table[DEFAULT_LANG] || {}
     return fallback[key] != null ? fallback[key] : ''
+  }
+
+  /**
+   * 判断指定语言是否需要加载 translations-extra.js
+   * @param {string} lang 语言代码
+   * @returns {boolean}
+   */
+  function needsExtraTranslations(lang) {
+    return lang !== DEFAULT_LANG
+  }
+
+  /**
+   * 检查额外语言包是否已合并到 SolanTranslations
+   * @returns {boolean}
+   */
+  function isExtraLoaded() {
+    var table = window.SolanTranslations || {}
+    return !!table.es
+  }
+
+  /**
+   * 动态加载 translations-extra.js（全局仅加载一次）
+   * @returns {Promise<void>}
+   */
+  function loadExtraTranslations() {
+    if (isExtraLoaded()) {
+      return Promise.resolve()
+    }
+    if (extraLoadPromise) {
+      return extraLoadPromise
+    }
+    extraLoadPromise = new Promise(function (resolve, reject) {
+      var script = document.createElement('script')
+      script.src = EXTRA_SCRIPT
+      script.async = true
+      script.onload = function () {
+        resolve()
+      }
+      script.onerror = function () {
+        extraLoadPromise = null
+        reject(new Error('Failed to load ' + EXTRA_SCRIPT))
+      }
+      document.head.appendChild(script)
+    })
+    return extraLoadPromise
+  }
+
+  /**
+   * 确保当前语言所需的翻译表已就绪
+   * @param {string} lang 语言代码
+   * @returns {Promise<void>}
+   */
+  function ensureTranslations(lang) {
+    if (!needsExtraTranslations(lang)) {
+      return Promise.resolve()
+    }
+    return loadExtraTranslations()
   }
 
   /**
@@ -168,14 +229,19 @@
   }
 
   /**
-   * 切换到指定语言并关闭下拉
+   * 切换到指定语言并关闭下拉（非英文时先按需加载额外翻译）
    * @param {string} lang 语言代码
    */
   function setLanguage(lang) {
     var code = SUPPORTED.indexOf(lang) !== -1 ? lang : DEFAULT_LANG
     saveLang(code)
-    applyLanguage(code)
-    setMenuOpen(false)
+    ensureTranslations(code).then(function () {
+      applyLanguage(code)
+      setMenuOpen(false)
+    }).catch(function () {
+      applyLanguage(DEFAULT_LANG)
+      setMenuOpen(false)
+    })
   }
 
   /**
@@ -220,14 +286,23 @@
   }
 
   /**
-   * 初始化：应用已存语言并绑定 UI
+   * 初始化：英文跳过 DOM 替换（HTML 已是英文），其他语言按需加载后应用
    */
   function init() {
     if (!window.SolanTranslations) {
       return
     }
-    applyLanguage(getStoredLang())
     bindSwitcher()
+    var lang = getStoredLang()
+    if (lang === DEFAULT_LANG) {
+      updateSwitcherUI(DEFAULT_LANG)
+      return
+    }
+    ensureTranslations(lang).then(function () {
+      applyLanguage(lang)
+    }).catch(function () {
+      updateSwitcherUI(DEFAULT_LANG)
+    })
   }
 
   window.SolanI18n = {

@@ -396,7 +396,7 @@ html {
   inset: 0;
   background:
     linear-gradient(105deg, rgba(8, 24, 36, 0.92) 0%, rgba(11, 43, 61, 0.72) 42%, rgba(11, 43, 61, 0.28) 100%),
-    url('../img/home-banner.png') center / cover no-repeat;
+    url('../img/home-banner.jpg') center / cover no-repeat;
   transform: scale(1.02);
   animation: home-media-in 1.1s ease both;
 }
