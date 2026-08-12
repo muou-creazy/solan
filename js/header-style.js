@@ -12,8 +12,8 @@
   var PANEL_POS_STORAGE_KEY = 'solan-header-panel-pos'
   /** B 方案视觉预设 localStorage 键 */
   var PRESET_STORAGE_KEY = 'solan-brand-preset'
-  /** 默认顶栏样式 */
-  var DEFAULT_STYLE = 'brand'
+  /** 默认顶栏样式（C utility） */
+  var DEFAULT_STYLE = 'utility'
   /** 默认固定在顶部 */
   var DEFAULT_STICKY = 'on'
   /** 默认 Logo 宽度（px） */

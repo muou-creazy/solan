@@ -128,16 +128,16 @@ html[data-header-sticky="off"] .site-header.scrolled {
   color: #e06a52;
 }
 
-/* 顶栏社交渠道：仅 Facebook + LinkedIn 图标 */
+/* 顶栏社交渠道：Facebook + LinkedIn + Instagram */
 .social-channels--header {
-  --channels-h: 36px;
+  --channels-h: 28px;
   position: relative;
   margin: 0;
   height: var(--channels-h);
   width: auto;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   border-radius: 0;
   overflow: visible;
   flex-shrink: 0;
@@ -513,14 +513,14 @@ html[data-header-style="brand"][data-brand-preset="p3"] .lang-switcher {
   margin-bottom: 8px;
 }
 
-/* ===== 顶栏样式 utility：单行 Logo | 导航 | 联系 + 语言 ===== */
+/* ===== 顶栏样式 utility：单行 Logo | 导航 | 联系 + 语言（内边距参考 B/P3 收紧） ===== */
 html[data-header-style="utility"] .site-header {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto;
   align-items: center;
   column-gap: 24px;
-  row-gap: 8px;
-  padding: 10px max(24px, calc((100% - 1280px) / 2));
+  row-gap: 6px;
+  padding: 6px max(24px, calc((100% - 1280px) / 2));
   background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
@@ -541,18 +541,23 @@ html[data-header-style="utility"] .logo-wrapper {
   position: static;
   top: auto;
   z-index: 1;
+  padding: 4px 0;
 }
 
 html[data-header-style="utility"] .logo-image {
   width: var(--logo-size);
   height: auto;
-  border-radius: 8px;
-  padding: 3px;
-  background: #fff;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 html[data-header-style="utility"] .logo-image:hover {
   transform: scale(1.04);
+  border-color: transparent;
+  box-shadow: none;
 }
 
 html[data-header-style="utility"] .nav-links {
@@ -562,6 +567,7 @@ html[data-header-style="utility"] .nav-links {
   justify-content: center;
   gap: 1.5rem;
   flex-wrap: wrap;
+  padding: 5px 0;
 }
 
 html[data-header-style="utility"] .social-channels--header {
@@ -569,7 +575,7 @@ html[data-header-style="utility"] .social-channels--header {
   grid-row: 1;
   justify-self: end;
   background: transparent;
-  --channels-h: 40px;
+  --channels-h: 28px;
 }
 
 html[data-header-style="utility"] .lang-switcher {
@@ -667,13 +673,13 @@ html[data-header-style="utility"] .logo-bar {
     padding: 2px 0 0;
   }
 
-  /* C：上排 Logo 左 / 联系+语言右对齐，下排导航居中 */
+  /* C：上排 Logo 左 / 联系+语言右对齐，下排导航居中（内边距参考 B/P3） */
   html[data-header-style="utility"] .site-header {
     grid-template-columns: auto 1fr auto auto;
     grid-template-rows: auto auto;
     column-gap: 10px;
-    row-gap: 10px;
-    padding: 10px 16px 12px;
+    row-gap: 6px;
+    padding: 6px 16px 8px;
     align-items: center;
   }
 
