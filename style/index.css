@@ -39,98 +39,126 @@ main {
   padding: 0 24px;
 }
 
-/* Logo 尺寸由调试面板 --logo-size 控制，默认 100px */
+/* Logo 固定宽度 100px */
 html {
   --logo-size: 100px;
 }
 
-/* ===== 站点顶栏：结构基线（brand / utility 见下方覆盖） ===== */
+/* ===== 站点顶栏：单行 Logo | 导航 | 社交 | 语言（收紧内边距） ===== */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  column-gap: 24px;
+  row-gap: 6px;
+  padding: 6px max(24px, calc((100% - 1280px) / 2));
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid rgba(238, 241, 245, 0.95);
   transition: box-shadow 0.3s;
-}
-
-/* 关闭顶栏固定：随页面滚动离开视口 */
-html[data-header-sticky="off"] .site-header {
-  position: relative;
-  top: auto;
 }
 
 .site-header.scrolled {
   box-shadow: 0 8px 28px rgba(10, 14, 20, 0.28);
 }
 
-html[data-header-sticky="off"] .site-header.scrolled {
-  box-shadow: none;
-}
-
-/* Logo 行：浅底，仅 Logo（联系渠道在导航行） */
-.logo-bar {
-  /* background: #141a22; */
-  background: #F7F9FC;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.logo-bar .container {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 16px;
-  min-height: 64px;
-  max-height: 56px;
-  padding-top: 6px;
-  padding-bottom: 6px;
+.logo-bar,
+.navbar,
+.logo-bar .container,
+.navbar .container,
+.header-nav-tools {
+  display: contents;
 }
 
 .logo-wrapper {
-  position: relative;
-  top: 22px;
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
   align-items: center;
   gap: 10px;
   text-decoration: none;
   color: inherit;
   min-width: 0;
-  z-index: 100;
+  z-index: 1;
+  padding: 4px 0;
 }
 
 .logo-image {
-  /* width: 70px; */
-  /* height: 50px; */
   width: var(--logo-size);
   height: auto;
   object-fit: contain;
-  border-radius: 10px;
   flex-shrink: 0;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  border: 1.5px solid rgba(20, 26, 34, 0.1);
-  background: #f7f9fc;
-  padding: 4px;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .logo-image:hover {
-  transform: rotate(-4deg) scale(1.04);
-  border-color: rgba(196, 69, 43, 0.45);
-  box-shadow: 0 4px 16px rgba(196, 69, 43, 0.18);
+  transform: scale(1.04);
 }
 
-.logo-text {
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: #1a1a1a;
-  letter-spacing: -0.02em;
-  line-height: 1;
+.nav-links {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  justify-self: center;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 5px 0;
+  font-weight: 500;
+  font-size: 0.95rem;
 }
 
-.logo-text span {
-  color: #e06a52;
+.nav-links a {
+  text-decoration: none;
+  color: #1e1e1e;
+  transition: 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #c4452b;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.nav-links a:hover {
+  color: #c4452b;
+}
+
+.nav-links a.is-active {
+  color: #c4452b;
+}
+
+.nav-links a.is-active::after {
+  width: 100%;
 }
 
 /* 顶栏社交渠道：Facebook + LinkedIn + Instagram */
 .social-channels--header {
   --channels-h: 28px;
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
   position: relative;
   margin: 0;
   height: var(--channels-h);
@@ -170,69 +198,10 @@ html[data-header-sticky="off"] .site-header.scrolled {
   border-radius: 8px;
 }
 
-@media (max-width: 500px) {
-  .logo-bar .container {
-    min-height: 48px;
-    max-height: 52px;
-    gap: 10px;
-  }
-
-  .logo-text {
-    font-size: 1.05rem;
-  }
-
-  .logo-image {
-    width: var(--logo-size);
-    height: auto;
-    border-radius: 8px;
-  }
-
-  .social-channels--header {
-    --channels-h: 30px;
-    gap: 6px;
-  }
-}
-
-/* 导航行：菜单居中 */
-.navbar {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(238, 241, 245, 0.8);
-}
-
-.navbar .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
-.nav-links {
-  display: flex;
-  gap: 2rem;
-  font-weight: 500;
-  font-size: 0.95rem;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-/* 右侧工具区（联系渠道 + 语言切换） */
-.header-nav-tools {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* 语言切换：在工具区内随流排布 */
+/* 语言切换 */
 .lang-switcher {
+  grid-column: 4;
+  grid-row: 1;
   position: relative;
   z-index: 20;
   width: 120px;
@@ -311,393 +280,30 @@ html[data-header-sticky="off"] .site-header.scrolled {
   font-weight: 600;
 }
 
-.nav-links a {
-  text-decoration: none;
-  color: #1e1e1e;
-  transition: 0.2s;
-  cursor: pointer;
-  position: relative;
-}
-
-.nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: #c4452b;
-  transition: width 0.3s ease;
-}
-
-.nav-links a:hover::after {
-  width: 100%;
-}
-
-.nav-links a:hover {
-  color: #c4452b;
-}
-
-.nav-links a.is-active {
-  color: #c4452b;
-}
-
-.nav-links a.is-active::after {
-  width: 100%;
-}
-
-/* ===== 顶栏样式 brand：突出 Logo，工具条次级居中 ===== */
-html[data-header-style="brand"] .site-header {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  grid-template-rows: auto auto;
-  column-gap: 20px;
-  row-gap: 0;
-  padding: 0 max(24px, calc((100% - 1280px) / 2));
-  background:
-    linear-gradient(180deg, #fbfcfe 0%, #f3f6fa 100%);
-  border-bottom: 1px solid rgba(20, 26, 34, 0.08);
-}
-
-html[data-header-style="brand"] .logo-bar,
-html[data-header-style="brand"] .navbar,
-html[data-header-style="brand"] .logo-bar .container,
-html[data-header-style="brand"] .navbar .container,
-html[data-header-style="brand"] .header-nav-tools {
-  display: contents;
-}
-
-html[data-header-style="brand"] .logo-wrapper {
-  grid-column: 1 / -1;
-  grid-row: 1;
-  justify-self: center;
-  position: static;
-  top: auto;
-  z-index: 1;
-  padding: 20px 0 12px;
-}
-
-html[data-header-style="brand"] .logo-image {
-  width: var(--logo-size);
-  height: auto;
-  border: none;
-  background: transparent;
-  padding: 0;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-html[data-header-style="brand"] .logo-image:hover {
-  transform: scale(1.03);
-  border-color: transparent;
-  box-shadow: none;
-}
-
-html[data-header-style="brand"] .social-channels--header {
-  grid-column: 1;
-  grid-row: 2;
-  justify-self: end;
-  align-self: center;
-  margin-bottom: 14px;
-  background: transparent;
-  --channels-h: 34px;
-}
-
-html[data-header-style="brand"] .nav-links {
-  grid-column: 2;
-  grid-row: 2;
-  justify-self: center;
-  align-self: center;
-  margin-bottom: 14px;
-  gap: 1.75rem;
-  padding: 8px 18px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(20, 26, 34, 0.06);
-}
-
-html[data-header-style="brand"] .lang-switcher {
-  grid-column: 3;
-  grid-row: 2;
-  justify-self: start;
-  align-self: center;
-  position: relative;
-  top: auto;
-  right: auto;
-  transform: none;
-  margin-bottom: 14px;
-}
-
-html[data-header-style="brand"] .navbar {
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border-bottom: none;
-  padding: 0;
-}
-
-html[data-header-style="brand"] .logo-bar {
-  background: transparent;
-  border-bottom: none;
-}
-
-/* B 方案品牌 Slogan：默认隐藏，P3 显示 */
-.header-brand-slogan {
-  display: none;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #0b2b3d;
-  line-height: 1.3;
-}
-
-/* ===== B 方案预设 P0：保持现有样式（无额外覆盖） ===== */
-
-/* ===== B 方案预设 P1：截断法——Logo/菜单间品牌色细线 + 浅渐变底 ===== */
-html[data-header-style="brand"][data-brand-preset="p1"] .site-header {
-  background: linear-gradient(180deg, #ffffff 0%, #f4f6f9 100%);
-  border-bottom: 2px solid #c4452b;
-}
-
-html[data-header-style="brand"][data-brand-preset="p1"] .logo-wrapper {
-  width: 100%;
-  justify-self: stretch;
-  display: flex;
-  justify-content: center;
-  border-bottom: 1px solid rgba(11, 43, 61, 0.18);
-  padding-bottom: 14px;
-  margin-bottom: 2px;
-}
-
-/* ===== B 方案预设 P2：压重法——加粗 Slogan 连接 Logo 与菜单 ===== */
-html[data-header-style="brand"][data-brand-preset="p2"] .site-header {
-  grid-template-rows: auto auto auto;
-}
-
-html[data-header-style="brand"][data-brand-preset="p2"] .header-brand-slogan {
-  display: block;
-  grid-column: 1 / -1;
-  grid-row: 2;
-  justify-self: center;
-  font-size: clamp(0.95rem, 1.5vw, 1.15rem);
-  letter-spacing: 0.14em;
-  color: #0b2b3d;
-  padding: 2px 16px 12px;
-}
-
-html[data-header-style="brand"][data-brand-preset="p2"] .logo-wrapper {
-  padding-bottom: 6px;
-}
-
-html[data-header-style="brand"][data-brand-preset="p2"] .social-channels--header,
-html[data-header-style="brand"][data-brand-preset="p2"] .nav-links,
-html[data-header-style="brand"][data-brand-preset="p2"] .lang-switcher {
-  grid-row: 3;
-}
-
-/* ===== B 方案预设 P3：黄金分割——收紧顶栏上下留白约 25% ===== */
-html[data-header-style="brand"][data-brand-preset="p3"] .logo-wrapper {
-  padding: 12px 0 8px;
-}
-
-html[data-header-style="brand"][data-brand-preset="p3"] .nav-links {
-  margin-bottom: 8px;
-  padding: 5px 14px;
-}
-
-html[data-header-style="brand"][data-brand-preset="p3"] .social-channels--header,
-html[data-header-style="brand"][data-brand-preset="p3"] .lang-switcher {
-  margin-bottom: 8px;
-}
-
-/* ===== 顶栏样式 utility：单行 Logo | 导航 | 联系 + 语言（内边距参考 B/P3 收紧） ===== */
-html[data-header-style="utility"] .site-header {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto auto;
-  align-items: center;
-  column-gap: 24px;
-  row-gap: 6px;
-  padding: 6px max(24px, calc((100% - 1280px) / 2));
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border-bottom: 1px solid rgba(238, 241, 245, 0.95);
-}
-
-html[data-header-style="utility"] .logo-bar,
-html[data-header-style="utility"] .navbar,
-html[data-header-style="utility"] .logo-bar .container,
-html[data-header-style="utility"] .navbar .container,
-html[data-header-style="utility"] .header-nav-tools {
-  display: contents;
-}
-
-html[data-header-style="utility"] .logo-wrapper {
-  grid-column: 1;
-  grid-row: 1;
-  position: static;
-  top: auto;
-  z-index: 1;
-  padding: 4px 0;
-}
-
-html[data-header-style="utility"] .logo-image {
-  width: var(--logo-size);
-  height: auto;
-  border: none;
-  border-radius: 0;
-  padding: 0;
-  background: transparent;
-  box-shadow: none;
-}
-
-html[data-header-style="utility"] .logo-image:hover {
-  transform: scale(1.04);
-  border-color: transparent;
-  box-shadow: none;
-}
-
-html[data-header-style="utility"] .nav-links {
-  grid-column: 2;
-  grid-row: 1;
-  justify-self: center;
-  justify-content: center;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  padding: 5px 0;
-}
-
-html[data-header-style="utility"] .social-channels--header {
-  grid-column: 3;
-  grid-row: 1;
-  justify-self: end;
-  background: transparent;
-  --channels-h: 28px;
-}
-
-html[data-header-style="utility"] .lang-switcher {
-  grid-column: 4;
-  grid-row: 1;
-  position: relative;
-  top: auto;
-  right: auto;
-  transform: none;
-}
-
-html[data-header-style="utility"] .navbar {
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border-bottom: none;
-  padding: 0;
-}
-
-html[data-header-style="utility"] .logo-bar {
-  background: transparent;
-  border-bottom: none;
-}
-
 @media (max-width: 880px) {
-  /* B：Logo 居中 → 导航居中 → 联系左 / 语言右 两端对齐 */
-  html[data-header-style="brand"] .site-header {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto auto;
-    column-gap: 12px;
-    row-gap: 10px;
-    padding: 12px 16px 14px;
-    align-items: center;
-  }
-
-  html[data-header-style="brand"] .logo-wrapper {
-    grid-column: 1 / -1;
-    grid-row: 1;
-    justify-self: center;
-    padding: 4px 0 2px;
-  }
-
-  html[data-header-style="brand"] .nav-links {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    justify-self: stretch;
-    justify-content: center;
-    width: 100%;
-    margin: 0;
-    gap: 0.85rem 1rem;
-    padding: 8px 10px;
-    box-sizing: border-box;
-    flex-wrap: wrap;
-  }
-
-  html[data-header-style="brand"] .social-channels--header {
-    grid-column: 1;
-    grid-row: 3;
-    justify-self: start;
-    align-self: center;
-    margin: 0;
-  }
-
-  html[data-header-style="brand"] .lang-switcher {
-    grid-column: 2;
-    grid-row: 3;
-    justify-self: end;
-    align-self: center;
-    margin: 0;
-    text-align: right;
-  }
-
-  html[data-header-style="brand"][data-brand-preset="p2"] .site-header {
-    grid-template-rows: auto auto auto auto;
-  }
-
-  html[data-header-style="brand"][data-brand-preset="p2"] .header-brand-slogan {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    padding: 0 8px 8px;
-    font-size: 0.88rem;
-    letter-spacing: 0.1em;
-  }
-
-  html[data-header-style="brand"][data-brand-preset="p2"] .nav-links {
-    grid-row: 3;
-  }
-
-  html[data-header-style="brand"][data-brand-preset="p2"] .social-channels--header,
-  html[data-header-style="brand"][data-brand-preset="p2"] .lang-switcher {
-    grid-row: 4;
-  }
-
-  html[data-header-style="brand"][data-brand-preset="p3"] .logo-wrapper {
-    padding: 2px 0 0;
-  }
-
-  /* C：上排 Logo 左 / 联系+语言右对齐，下排导航居中（内边距参考 B/P3） */
-  html[data-header-style="utility"] .site-header {
+  .site-header {
     grid-template-columns: auto 1fr auto auto;
     grid-template-rows: auto auto;
     column-gap: 10px;
     row-gap: 6px;
     padding: 6px 16px 8px;
-    align-items: center;
   }
 
-  html[data-header-style="utility"] .logo-wrapper {
+  .logo-wrapper {
     grid-column: 1;
     grid-row: 1;
     justify-self: start;
     align-self: center;
   }
 
-  html[data-header-style="utility"] .social-channels--header {
+  .social-channels--header {
     grid-column: 3;
     grid-row: 1;
     justify-self: end;
     align-self: center;
   }
 
-  html[data-header-style="utility"] .lang-switcher {
+  .lang-switcher {
     grid-column: 4;
     grid-row: 1;
     justify-self: end;
@@ -705,7 +311,7 @@ html[data-header-style="utility"] .logo-bar {
     width: auto;
   }
 
-  html[data-header-style="utility"] .nav-links {
+  .nav-links {
     grid-column: 1 / -1;
     grid-row: 2;
     justify-self: stretch;
@@ -718,201 +324,20 @@ html[data-header-style="utility"] .logo-bar {
 }
 
 @media (max-width: 500px) {
-  html[data-header-style="brand"] .site-header,
-  html[data-header-style="utility"] .site-header {
+  .site-header {
     padding-left: 12px;
     padding-right: 12px;
-  }
-
-  html[data-header-style="brand"] .nav-links,
-  html[data-header-style="utility"] .nav-links {
-    gap: 0.65rem 0.85rem;
-    font-size: 0.85rem;
-    justify-content: center;
-  }
-
-  html[data-header-style="brand"] .nav-links {
-    padding: 6px 8px;
-  }
-
-  html[data-header-style="utility"] .site-header {
     column-gap: 8px;
   }
 
-  html[data-header-style="brand"] .social-channels--header,
-  html[data-header-style="utility"] .social-channels--header {
-    --channels-h: 30px;
-  }
-}
-
-/* ===== 左下角顶栏调试面板（可拖动） ===== */
-.header-style-switcher {
-  position: fixed;
-  left: 16px;
-  bottom: 16px;
-  z-index: 210;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 8px 10px 10px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid #e5e8ee;
-  box-shadow: 0 10px 28px rgba(10, 14, 20, 0.12);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  max-width: calc(100vw - 24px);
-  user-select: none;
-}
-
-.header-style-switcher.is-dragging {
-  opacity: 0.96;
-  box-shadow: 0 14px 36px rgba(10, 14, 20, 0.18);
-}
-
-.header-style-switcher__drag {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 18px;
-  margin: -2px 0 0;
-  cursor: grab;
-  border-radius: 6px;
-  color: #9aa3af;
-  touch-action: none;
-}
-
-.header-style-switcher__drag:hover {
-  background: #f3f5f8;
-  color: #6b7280;
-}
-
-.header-style-switcher.is-dragging .header-style-switcher__drag {
-  cursor: grabbing;
-}
-
-.header-style-switcher__drag-bars {
-  display: block;
-  width: 36px;
-  height: 4px;
-  border-radius: 999px;
-  background: currentColor;
-  box-shadow: 0 -5px 0 currentColor, 0 5px 0 currentColor;
-  opacity: 0.55;
-}
-
-.header-style-switcher__body {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  touch-action: auto;
-}
-
-.header-style-switcher__row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px 12px;
-}
-
-.header-style-switcher__group {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.header-style-switcher__group--logo {
-  width: 100%;
-  gap: 8px;
-}
-
-.header-style-switcher__divider {
-  width: 1px;
-  align-self: stretch;
-  min-height: 28px;
-  background: #e5e8ee;
-}
-
-.header-style-switcher__label {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #6b7280;
-  white-space: nowrap;
-}
-
-.header-style-switcher__range {
-  flex: 1 1 auto;
-  min-width: 100px;
-  max-width: 180px;
-  height: 4px;
-  accent-color: #c4452b;
-  cursor: pointer;
-  touch-action: auto;
-}
-
-.header-style-switcher__value {
-  min-width: 2.4em;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: #374151;
-  font-variant-numeric: tabular-nums;
-}
-
-.header-style-switcher__btns {
-  display: inline-flex;
-  gap: 4px;
-  padding: 3px;
-  border-radius: 9px;
-  background: #f3f5f8;
-}
-
-.header-style-switcher__btn {
-  min-width: 34px;
-  height: 30px;
-  padding: 0 10px;
-  border: none;
-  border-radius: 7px;
-  background: transparent;
-  color: #374151;
-  font-size: 0.82rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
-  touch-action: auto;
-}
-
-.header-style-switcher__btn:hover {
-  color: #c4452b;
-}
-
-.header-style-switcher__btn.is-active,
-.header-style-switcher__btn[aria-pressed="true"] {
-  background: #fff;
-  color: #c4452b;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-}
-
-@media (max-width: 500px) {
-  .header-style-switcher {
-    left: 10px;
-    bottom: 10px;
-    padding: 6px 8px 8px;
-    gap: 6px;
+  .nav-links {
+    gap: 0.65rem 0.85rem;
+    font-size: 0.85rem;
   }
 
-  .header-style-switcher__label {
-    display: none;
-  }
-
-  .header-style-switcher__divider {
-    display: none;
-  }
-
-  .header-style-switcher__range {
-    min-width: 90px;
-    max-width: 140px;
+  .social-channels--header {
+    --channels-h: 26px;
+    gap: 4px;
   }
 }
 
