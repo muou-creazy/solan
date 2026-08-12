@@ -1,6 +1,6 @@
 /**
- * 社交聊天唤起：WhatsApp / Facebook Messenger / LinkedIn
- * 优先打开本地 App，失败则跳转 Web 聊天页
+ * 社交唤起：WhatsApp / Messenger 聊天，以及 Facebook / LinkedIn / Instagram 主页
+ * 优先打开本地 App，超时未切换则跳转网页
  * 微信等 App 内置浏览器会拦截外链，需引导到系统浏览器
  */
 (function (global) {
@@ -201,14 +201,35 @@
   }
 
   /**
+   * 解析渠道显示名（聊天默认 Messenger；主页用 Facebook）
+   * @param {string} channel 渠道名
+   * @param {string} [labelOverride] 可选覆盖名
+   * @returns {string}
+   */
+  function resolveChannelLabel(channel, labelOverride) {
+    if (labelOverride) {
+      return labelOverride
+    }
+    if (channel === 'facebook') {
+      return 'Messenger'
+    }
+    if (channel === 'linkedin') {
+      return 'LinkedIn'
+    }
+    if (channel === 'instagram') {
+      return 'Instagram'
+    }
+    return 'WhatsApp'
+  }
+
+  /**
    * 获取引导层文案：始终含中文，并附加当前所选语言
    * @param {string} channel 渠道名
+   * @param {string} [labelOverride] 渠道显示名覆盖
    * @returns {{ title: string, tipZh: string, tipLang: string, showTipLang: boolean, copy: string, open: string, close: string, copied: string, prompt: string }}
    */
-  function getGuideCopy(channel) {
-    var channelLabel = channel === 'facebook'
-      ? 'Messenger'
-      : (channel === 'linkedin' ? 'LinkedIn' : 'WhatsApp')
+  function getGuideCopy(channel, labelOverride) {
+    var channelLabel = resolveChannelLabel(channel, labelOverride)
     var tipKey = isWeChat() ? 'chatGuide.tipWeChat' : 'chatGuide.tipInApp'
     var uiLang = getUiLang()
 
@@ -234,14 +255,16 @@
    * 展示内置浏览器引导层：中文 + 当前所选语言
    * @param {string} url 可复制的目标链接
    * @param {string} channel 渠道名
+   * @param {string} [labelOverride] 渠道显示名覆盖
+   * @param {string} [pkg] Android 包名（Intent 用）
    */
-  function showInAppGuide(url, channel) {
+  function showInAppGuide(url, channel, labelOverride, pkg) {
     var existing = document.getElementById('solan-inapp-guide')
     if (existing) {
       existing.parentNode.removeChild(existing)
     }
 
-    var copy = getGuideCopy(channel)
+    var copy = getGuideCopy(channel, labelOverride)
     var tipLangHtml = copy.showTipLang
       ? '  <p class="solan-inapp-guide__desc solan-inapp-guide__desc--lang">' + copy.tipLang + '</p>'
       : ''
@@ -299,7 +322,8 @@
       if (action === 'open') {
         closeGuide()
         // 内置浏览器中优先走 https 通用链接；Android 再尝试 Intent
-        if (!(isAndroid() && tryAndroidIntent(url, channel === 'whatsapp' ? 'com.whatsapp' : ''))) {
+        var intentPkg = pkg || (channel === 'whatsapp' ? 'com.whatsapp' : '')
+        if (!(isAndroid() && tryAndroidIntent(url, intentPkg))) {
           window.location.href = url
         }
       }
@@ -309,23 +333,21 @@
   }
 
   /**
-   * 打开指定渠道聊天：先尝试 App，超时未切换则打开 Web 版
+   * 先尝试 App，超时仍在页内则打开网页
+   * @param {{ appUrl: string, webUrl: string, universalUrl?: string, pkg?: string }} urls 链接集合
    * @param {string} channel 渠道名
-   * @param {string} [account] 账户标识
-   * @param {string} [text] 预填消息
+   * @param {string} [labelOverride] 引导层显示名
    */
-  function openChat(channel, account, text) {
-    var targetChannel = (channel || 'whatsapp').toLowerCase()
-    var targetAccount = account || DEFAULT_ACCOUNT
-    var targetText = text || DEFAULT_TEXT
-    var urls = buildUrls(targetChannel, targetAccount, targetText)
+  function openAppThenWeb(urls, channel, labelOverride) {
+    var webTarget = urls.universalUrl || urls.webUrl
 
     // 微信 / 抖音 / FB 等内置浏览器：自定义协议和 window.open 常被拦截
     if (isInAppBrowser()) {
-      showInAppGuide(urls.universalUrl || urls.webUrl, targetChannel)
-      // Android 微信额外尝试 Intent 跳出（不保证成功）
-      if (isAndroid() && targetChannel === 'whatsapp') {
-        tryAndroidIntent(urls.universalUrl, 'com.whatsapp')
+      showInAppGuide(webTarget, channel, labelOverride, urls.pkg || '')
+      if (isAndroid() && urls.pkg) {
+        tryAndroidIntent(webTarget, urls.pkg)
+      } else if (isAndroid() && channel === 'whatsapp') {
+        tryAndroidIntent(webTarget, 'com.whatsapp')
       }
       return
     }
@@ -377,6 +399,75 @@
   }
 
   /**
+   * 按渠道拼接主页 App / Web 链接
+   * @param {string} channel facebook | linkedin | instagram
+   * @param {string} profile 用户名 / 主页名
+   * @param {string} [webUrl] 网页兜底地址
+   * @returns {{ appUrl: string, webUrl: string, universalUrl: string, pkg: string }}
+   */
+  function buildProfileUrls(channel, profile, webUrl) {
+    var id = String(profile || '').replace(/^@/, '').replace(/\s/g, '')
+    var web = webUrl || ''
+
+    if (channel === 'instagram') {
+      var igWeb = web || ('https://www.instagram.com/' + encodeURIComponent(id) + '/')
+      return {
+        appUrl: 'instagram://user?username=' + encodeURIComponent(id),
+        webUrl: igWeb,
+        universalUrl: igWeb,
+        pkg: 'com.instagram.android'
+      }
+    }
+
+    if (channel === 'linkedin') {
+      var liWeb = web || ('https://www.linkedin.com/in/' + encodeURIComponent(id) + '/')
+      return {
+        appUrl: 'linkedin://in/' + encodeURIComponent(id),
+        webUrl: liWeb,
+        universalUrl: liWeb,
+        pkg: 'com.linkedin.android'
+      }
+    }
+
+    var fbWeb = web || ('https://www.facebook.com/' + encodeURIComponent(id) + '/')
+    return {
+      appUrl: 'fb://facewebmodal/f?href=' + encodeURIComponent(fbWeb),
+      webUrl: fbWeb,
+      universalUrl: fbWeb,
+      pkg: 'com.facebook.katana'
+    }
+  }
+
+  /**
+   * 打开社交主页：先尝试 App，超时未切换则打开网页
+   * @param {string} channel 渠道名
+   * @param {string} profile 用户名 / 主页名
+   * @param {string} [webUrl] 网页兜底地址
+   */
+  function openProfile(channel, profile, webUrl) {
+    var targetChannel = (channel || 'facebook').toLowerCase()
+    var urls = buildProfileUrls(targetChannel, profile, webUrl)
+    var label = targetChannel === 'facebook'
+      ? 'Facebook'
+      : (targetChannel === 'linkedin' ? 'LinkedIn' : 'Instagram')
+    openAppThenWeb(urls, targetChannel, label)
+  }
+
+  /**
+   * 打开指定渠道聊天：先尝试 App，超时未切换则打开 Web 版
+   * @param {string} channel 渠道名
+   * @param {string} [account] 账户标识
+   * @param {string} [text] 预填消息
+   */
+  function openChat(channel, account, text) {
+    var targetChannel = (channel || 'whatsapp').toLowerCase()
+    var targetAccount = account || DEFAULT_ACCOUNT
+    var targetText = text || DEFAULT_TEXT
+    var urls = buildUrls(targetChannel, targetAccount, targetText)
+    openAppThenWeb(urls, targetChannel)
+  }
+
+  /**
    * 判断节点是否为社交聊天链接
    * @param {Element|null} el 事件目标
    * @returns {HTMLAnchorElement|null}
@@ -389,10 +480,43 @@
   }
 
   /**
-   * 拦截社交聊天链接点击
+   * 判断节点是否为社交主页链接
+   * @param {Element|null} el 事件目标
+   * @returns {HTMLAnchorElement|null}
+   */
+  function findProfileLink(el) {
+    if (!el || !el.closest) {
+      return null
+    }
+    return el.closest('a.js-social-profile')
+  }
+
+  /**
+   * 从主页链接节点读取渠道与标识
+   * @param {HTMLAnchorElement} link 链接节点
+   * @returns {{ channel: string, profile: string, webUrl: string }}
+   */
+  function readProfileParams(link) {
+    return {
+      channel: (link.getAttribute('data-channel') || 'facebook').toLowerCase(),
+      profile: link.getAttribute('data-profile') || '',
+      webUrl: link.getAttribute('href') || ''
+    }
+  }
+
+  /**
+   * 拦截社交聊天 / 主页链接点击
    */
   function bindChatLinks() {
     document.addEventListener('click', function (e) {
+      var profileLink = findProfileLink(e.target)
+      if (profileLink) {
+        e.preventDefault()
+        var profileParams = readProfileParams(profileLink)
+        openProfile(profileParams.channel, profileParams.profile, profileParams.webUrl)
+        return
+      }
+
       var link = findChatLink(e.target)
       if (!link) {
         return
@@ -405,8 +529,10 @@
 
   global.SolanSocialChat = {
     openChat: openChat,
+    openProfile: openProfile,
     bindChatLinks: bindChatLinks,
     buildUrls: buildUrls,
+    buildProfileUrls: buildProfileUrls,
     isInAppBrowser: isInAppBrowser,
     isWeChat: isWeChat,
     DEFAULT_ACCOUNT: DEFAULT_ACCOUNT
