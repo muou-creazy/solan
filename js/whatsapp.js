@@ -5,7 +5,7 @@
  */
 (function (global) {
   /** 默认账户（当前按业务手机号配置，后续可改为主页用户名 / Profile ID） */
-  var DEFAULT_ACCOUNT = '8615027442014'
+  var DEFAULT_ACCOUNT = '8615176878235'
   /** 默认预填文案 */
   var DEFAULT_TEXT = 'Hello Solan, I would like to inquire about your products.'
   /** App 唤起等待时长（毫秒），超时则视为未安装 */

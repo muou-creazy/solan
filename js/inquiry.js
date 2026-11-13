@@ -4,7 +4,7 @@
  */
 (function (global) {
   /** 接收询盘的目标邮箱 */
-  var TO_EMAIL = 'shelly@solanactive.com'
+  var TO_EMAIL = 'iris@solanactive.com'
 
   /**
    * 读取当前站点语言
